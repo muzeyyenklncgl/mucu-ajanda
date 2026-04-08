@@ -891,14 +891,16 @@ function renderCalendar(){
   for(let d=1;d<=daysInMonth;d++){
     const dk=`${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
     const isToday=dk===todayStr;const hasEntry=entrySet.has(dk);const isFuture=dk>todayStr;
+    const hasPlan=planDates.has(dk);
+    const clickable=!isFuture||hasPlan;
     const dots=[
       entrySet.has(dk)?'<div class="cal-dot dot-gunluk"></div>':'',
-      planDates.has(dk)?'<div class="cal-dot dot-plan"></div>':'',
+      hasPlan?'<div class="cal-dot dot-plan"></div>':'',
       movieDates.has(dk)?'<div class="cal-dot dot-movie"></div>':'',
       hobbyDates.has(dk)?'<div class="cal-dot dot-hobby"></div>':'',
       mekanDates.has(dk)?'<div class="cal-dot dot-mekan"></div>':'',
     ].join('');
-    html+=`<div class="cal-day${hasEntry?' has-entry':''}${isToday?' today':''}${isFuture?' future':''}" onclick="${isFuture?'':`calSelect('${dk}')`}">${d}${dots?`<div class="cal-dots">${dots}</div>`:''}</div>`;
+    html+=`<div class="cal-day${hasEntry?' has-entry':''}${isToday?' today':''}${isFuture&&!hasPlan?' future':''}" onclick="${clickable?`calSelect('${dk}')`:''}"> ${d}${dots?`<div class="cal-dots">${dots}</div>`:''}</div>`;
   }
   document.getElementById('calGrid').innerHTML=html;document.getElementById('calEntry').innerHTML='';
 }
@@ -923,15 +925,15 @@ function calSelect(dk){
   } else {
     html+=`<div class="card"><div style="text-align:center;padding:16px 0"><p style="font-size:13px;color:var(--txt2);margin-bottom:10px">🌱 ${fmtDate(d)}</p><button style="background:var(--c1);color:#fff;border:none;border-radius:10px;padding:10px 20px;cursor:pointer;font-size:14px;font-weight:600" onclick="currentDay=new Date('${dk}T12:00:00');showSection('daily',null)">📝 Bugünü Kaydet</button></div></div>`;
   }
-  if(dayMovies.length){html+=`<div class="card"><div class="card-title" style="color:var(--c2)">🎬 Bu gün izlenenler</div>${dayMovies.map(m=>`<div style="padding:6px 0;border-bottom:0.5px solid var(--brd);font-size:13px">${m.type==='Film'?'🎥':'📺'} ${m.name}${m.score?' · '+'⭐'.repeat(m.score):''}</div>`).join('')}</div>`;}
-  if(dayHobbies.length){html+=`<div class="card"><div class="card-title" style="color:var(--c3)">🎨 Bu gün hobiler</div>${dayHobbies.map(h=>`<div style="padding:6px 0;border-bottom:0.5px solid var(--brd);font-size:13px">🎨 ${h.name}${h.dur?' · '+h.dur:''}</div>`).join('')}</div>`;}
-  if(dayMekanlar.length){html+=`<div class="card"><div class="card-title" style="color:var(--c4)">📍 Bu gün gidilen mekanlar</div>${dayMekanlar.map(m=>`<div style="padding:6px 0;border-bottom:0.5px solid var(--brd);font-size:13px">📍 ${m.name}${m.score?' · '+'⭐'.repeat(m.score):''}</div>`).join('')}</div>`;}
+  if(dayMovies.length){html+=`<div class="card"><div class="card-title" style="color:var(--c2)">🎬 Bugün izlenenler</div>${dayMovies.map(m=>`<div style="padding:6px 0;border-bottom:0.5px solid var(--brd);font-size:13px">${m.type==='Film'?'🎥':'📺'} ${m.name}${m.score?' · '+'⭐'.repeat(m.score):''}</div>`).join('')}</div>`;}
+  if(dayHobbies.length){html+=`<div class="card"><div class="card-title" style="color:var(--c3)">🎨 Bugün hobiler</div>${dayHobbies.map(h=>`<div style="padding:6px 0;border-bottom:0.5px solid var(--brd);font-size:13px">🎨 ${h.name}${h.dur?' · '+h.dur:''}</div>`).join('')}</div>`;}
+  if(dayMekanlar.length){html+=`<div class="card"><div class="card-title" style="color:var(--c4)">📍 Bugün gidilen mekanlar</div>${dayMekanlar.map(m=>`<div style="padding:6px 0;border-bottom:0.5px solid var(--brd);font-size:13px">📍 ${m.name}${m.score?' · '+'⭐'.repeat(m.score):''}</div>`).join('')}</div>`;}
   if(dayPlans.length){
-    html+=`<div class="card"><div class="card-title" style="color:var(--c6)">🗺️ Bu güne ait planlar</div>`;
+    html+=`<div class="card"><div class="card-title" style="color:var(--c6)">🗺️ Bugüne ait planlar</div>`;
     dayPlans.forEach(p=>{html+=`<div style="padding:6px 0;border-bottom:0.5px solid var(--brd);display:flex;align-items:center;gap:8px"><span class="tag ${CAT_COLORS[p.cat]||'am'}" style="font-size:10px">${p.cat}</span><span style="font-size:13px;${p.done?'text-decoration:line-through;opacity:.5':''}">${p.text}</span></div>`;});
     html+=`</div>`;
   }
-  cont.innerHTML=html||`<div class="card"><div class="empty" style="padding:16px">Bu güne ait kayıt yok.</div></div>`;
+  cont.innerHTML=html||`<div class="card"><div class="empty" style="padding:16px">Bugüne ait kayıt yok.</div></div>`;
 }
 
 /* GEZİ/PLAN */
