@@ -18,21 +18,25 @@
   --c1:#7C6FE0;--c2:#E85D8A;--c3:#F59E0B;--c4:#10B981;--c5:#3B82F6;--c6:#F97316;
   --c1l:#EEEDFE;--c2l:#FDE8F0;--c3l:#FEF3C7;--c4l:#D1FAE5;--c5l:#DBEAFE;--c6l:#FFEDD5;
   --font:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  /* mekan renkleri */
+  --gidilecek-bg:#FFF0F0;--gidilecek-brd:#F5C5C5;--gidilecek-txt:#C0392B;
+  --gidilen-bg:#F0FFF4;--gidilen-brd:#A8DFC0;--gidilen-txt:#1A7A47;
 }
 [data-dark="1"]{
   --bg0:#161616;--bg1:#1f1f1f;--bg2:#282828;--txt1:#f0f0f0;--txt2:#999;--txt3:#555;
   --brd:rgba(255,255,255,0.08);--brd2:rgba(255,255,255,0.16);
   --c1:#9D93F0;--c2:#F07AA8;--c3:#FBB840;--c4:#34D399;--c5:#60A5FA;--c6:#FB923C;
   --c1l:#2a2660;--c2l:#3d1525;--c3l:#2d1f00;--c4l:#052e1c;--c5l:#1e3a5f;--c6l:#2d1500;
+  --gidilecek-bg:#2d1010;--gidilecek-brd:#7a2020;--gidilecek-txt:#F07070;
+  --gidilen-bg:#0d2b1a;--gidilen-brd:#1a6640;--gidilen-txt:#4fd490;
 }
 body{font-family:var(--font);background:var(--bg1);color:var(--txt1);min-height:100vh;overflow-x:hidden}
 .app{max-width:480px;margin:0 auto;padding-bottom:84px}
 .topbar{background:var(--bg0);border-bottom:0.5px solid var(--brd);padding:11px 16px;position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:space-between}
-.topbar-brand{display:flex;align-items:center;gap:8px;flex:1;min-width:0}
+.topbar-brand{display:flex;align-items:center;gap:8px}
 .topbar-dot{width:8px;height:8px;border-radius:50%;background:var(--c1);flex-shrink:0}
-.topbar-title{font-size:14px;font-weight:600;color:var(--txt1);background:none;border:none;font-family:var(--font);width:100%;min-width:0;cursor:text;padding:2px 4px;border-radius:6px}
-.topbar-title:focus{outline:none;background:var(--bg2)}
-.topbar-right{display:flex;align-items:center;gap:6px;flex-shrink:0}
+.topbar-brand span{font-size:14px;font-weight:600;color:var(--txt1)}
+.topbar-right{display:flex;align-items:center;gap:6px}
 .topbar-date{font-size:11px;color:var(--txt2)}
 .icon-btn{background:var(--bg2);border:none;border-radius:16px;padding:5px 10px;cursor:pointer;font-size:13px;color:var(--txt2)}
 .nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;background:var(--bg0);border-top:0.5px solid var(--brd);display:flex;z-index:100;padding:4px 0 8px}
@@ -64,6 +68,18 @@ body{font-family:var(--font);background:var(--bg1);color:var(--txt1);min-height:
 .field input,.field textarea{width:100%;border:0.5px solid var(--brd2);border-radius:10px;padding:9px 11px;font-size:14px;background:var(--bg1);color:var(--txt1);font-family:var(--font)}
 .field textarea{resize:none;min-height:72px}
 .field input:focus,.field textarea:focus{outline:none;border-color:var(--c1)}
+/* checkbox field */
+.checkbox-field{margin-bottom:12px}
+.checkbox-field label{font-size:12px;color:var(--txt2);display:block;margin-bottom:6px;font-weight:600}
+.checkbox-toggle{display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--bg1);border:0.5px solid var(--brd2);border-radius:10px;cursor:pointer;transition:all .15s}
+.checkbox-toggle.checked{background:var(--c1l);border-color:var(--c1)}
+.checkbox-icon{width:22px;height:22px;border-radius:6px;border:1.5px solid var(--brd2);display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;transition:all .15s}
+.checkbox-toggle.checked .checkbox-icon{background:var(--c1);border-color:var(--c1);color:#fff}
+.checkbox-toggle span{font-size:14px;color:var(--txt2)}
+.checkbox-toggle.checked span{color:var(--c1);font-weight:500}
+.checkbox-text-field{margin-top:8px;display:none}
+.checkbox-text-field.visible{display:block}
+/* stars */
 .stars{display:flex;gap:2px;margin-top:4px;flex-wrap:wrap}
 .star{font-size:24px;cursor:pointer;opacity:.2;line-height:1}
 .star.on{opacity:1}
@@ -84,11 +100,11 @@ body{font-family:var(--font);background:var(--bg1);color:var(--txt1);min-height:
 .entry-date{font-size:13px;font-weight:600;color:var(--txt1)}
 .entry-score{font-size:13px;color:var(--c3);font-weight:600}
 .entry-thumb{width:100%;border-radius:10px;margin-top:8px;max-height:150px;object-fit:cover}
-/* SWIPE */
+/* swipe */
 .swipe-wrap{position:relative;overflow:hidden;border-radius:14px;margin-bottom:8px}
 .swipe-actions{position:absolute;right:0;top:0;bottom:0;display:flex;border-radius:0 14px 14px 0;overflow:hidden}
-.swipe-action-edit{width:64px;background:var(--c5);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:20px;display:none}
-.swipe-action-delete{width:64px;background:#E24B4A;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:20px;display:none}
+.swipe-action-edit{width:64px;background:var(--c5);display:none;align-items:center;justify-content:center;cursor:pointer;font-size:20px}
+.swipe-action-delete{width:64px;background:#E24B4A;display:none;align-items:center;justify-content:center;cursor:pointer;font-size:20px}
 .list-item{background:var(--bg0);border-radius:14px;border:0.5px solid var(--brd);padding:12px 14px;display:flex;align-items:center;gap:10px;position:relative;transition:transform .2s;touch-action:pan-y}
 .list-item-body{flex:1;min-width:0}
 .list-item-title{font-size:14px;font-weight:600;color:var(--txt1)}
@@ -110,21 +126,30 @@ body{font-family:var(--font);background:var(--bg1);color:var(--txt1);min-height:
 .date-nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
 .date-nav button{background:var(--bg0);border:0.5px solid var(--brd2);border-radius:10px;padding:7px 14px;cursor:pointer;font-size:13px;color:var(--txt1)}
 .date-nav span{font-size:14px;font-weight:600;color:var(--txt1)}
-.cal-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+/* calendar */
+.cal-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
 .cal-header button{background:none;border:0.5px solid var(--brd2);border-radius:8px;padding:6px 12px;cursor:pointer;font-size:13px;color:var(--txt1)}
 .cal-header span{font-size:15px;font-weight:600;color:var(--txt1)}
+.cal-legend{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px;padding:8px 12px;background:var(--bg0);border-radius:10px;border:0.5px solid var(--brd)}
+.cal-legend-item{display:flex;align-items:center;gap:4px;font-size:11px;color:var(--txt2)}
+.cal-legend-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
 .cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}
 .cal-day-name{text-align:center;font-size:11px;color:var(--txt2);padding:4px 0;font-weight:600}
-.cal-day{aspect-ratio:1;display:flex;flex-direction:column;align-items:center;justify-content:center;border-radius:10px;font-size:13px;cursor:pointer;color:var(--txt2);font-weight:500}
+.cal-day{aspect-ratio:1;display:flex;flex-direction:column;align-items:center;justify-content:center;border-radius:10px;font-size:13px;cursor:pointer;color:var(--txt2);font-weight:500;position:relative}
 .cal-day:hover{background:var(--bg2)}
 .cal-day.has-entry{background:var(--c1l);color:var(--c1);font-weight:700}
 .cal-day.today{border:2px solid var(--c1)}
 .cal-day.other-month{opacity:.3}
 .cal-day.future{opacity:.25;cursor:default}
-.cal-dots{display:flex;gap:2px;margin-top:2px}
-.cal-dot{width:4px;height:4px;border-radius:50%}
-.cal-dot.entry{background:var(--c1)}
-.cal-dot.plan{background:var(--c6)}
+.cal-dots{display:flex;gap:2px;margin-top:2px;flex-wrap:wrap;justify-content:center;max-width:100%}
+.cal-dot{width:5px;height:5px;border-radius:50%;flex-shrink:0}
+/* dot colors */
+.dot-gunluk{background:#7C6FE0}
+.dot-plan{background:#F97316}
+.dot-movie{background:#E85D8A}
+.dot-hobby{background:#F59E0B}
+.dot-mekan{background:#10B981}
+/* hobby */
 .hobby-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .hobby-card{background:var(--bg0);border-radius:14px;border:0.5px solid var(--brd);overflow:hidden}
 .hobby-card img{width:100%;height:100px;object-fit:cover;display:block}
@@ -140,17 +165,33 @@ body{font-family:var(--font);background:var(--bg1);color:var(--txt1);min-height:
 .ie-btn.export{background:var(--c4l);border-color:var(--c4);color:var(--c4)}
 .ie-btn.import{background:var(--c5l);border-color:var(--c5);color:var(--c5);position:relative;overflow:hidden}
 .ie-btn.import input{position:absolute;inset:0;opacity:0;cursor:pointer;font-size:0}
-.stats-grid-full{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+/* stats modal */
+.stats-section{margin-bottom:16px}
+.stats-section-title{font-size:13px;font-weight:600;color:var(--txt2);margin-bottom:8px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;padding:8px 12px;background:var(--bg2);border-radius:10px}
+.stats-section-count{background:var(--c1l);color:var(--c1);font-size:12px;padding:2px 8px;border-radius:10px;font-weight:600}
+.stats-list{display:none}
+.stats-list.open{display:block}
+.stats-list-item{padding:8px 0;border-bottom:0.5px solid var(--brd);font-size:13px;display:flex;align-items:center;gap:8px}
+.stats-grid-top{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:16px}
 .stats-item{background:var(--bg2);border-radius:12px;padding:12px 8px;text-align:center}
 .stats-item-num{font-size:20px;font-weight:600;color:var(--c1)}
 .stats-item-label{font-size:11px;color:var(--txt2);margin-top:2px}
-/* MEKAN KART */
-.mekan-card{background:var(--bg0);border-radius:14px;border:0.5px solid var(--brd);overflow:hidden;margin-bottom:8px}
+/* mekan */
+.mekan-card{border-radius:14px;overflow:hidden;margin-bottom:0}
+.mekan-card.gidilecek{background:var(--gidilecek-bg);border:1px solid var(--gidilecek-brd)}
+.mekan-card.gidilen{background:var(--gidilen-bg);border:1px solid var(--gidilen-brd)}
 .mekan-img{width:100%;height:120px;object-fit:cover;display:block}
-.mekan-img-ph{width:100%;height:80px;background:var(--c5l);display:flex;align-items:center;justify-content:center;font-size:28px}
+.mekan-img-ph{width:100%;height:70px;display:flex;align-items:center;justify-content:center;font-size:24px}
+.mekan-card.gidilecek .mekan-img-ph{background:rgba(200,50,50,0.08)}
+.mekan-card.gidilen .mekan-img-ph{background:rgba(20,150,80,0.08)}
 .mekan-body{padding:10px 14px}
-.mekan-name{font-size:14px;font-weight:600;color:var(--txt1)}
+.mekan-name{font-size:14px;font-weight:600}
+.mekan-card.gidilecek .mekan-name{color:var(--gidilecek-txt)}
+.mekan-card.gidilen .mekan-name{color:var(--gidilen-txt)}
 .mekan-meta{display:flex;gap:8px;margin-top:4px;align-items:center;flex-wrap:wrap}
+.mekan-section-label{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.6px;margin:12px 0 8px;display:flex;align-items:center;gap:6px}
+.mekan-section-label.gidilecek{color:var(--gidilecek-txt)}
+.mekan-section-label.gidilen{color:var(--gidilen-txt)}
 .plans-tabs{display:flex;margin-bottom:12px;border-radius:12px;overflow:hidden;border:0.5px solid var(--brd2);background:var(--bg2)}
 .plans-tab{flex:1;padding:9px;border:none;background:transparent;color:var(--txt2);font-size:13px;cursor:pointer;font-weight:600}
 .plans-tab.active{background:var(--bg0);color:var(--c6);border-radius:10px;margin:2px}
@@ -161,7 +202,7 @@ body{font-family:var(--font);background:var(--bg1);color:var(--txt1);min-height:
   <div class="topbar">
     <div class="topbar-brand">
       <div class="topbar-dot"></div>
-      <input class="topbar-title" id="appTitle" value="🌸 Mücü'nün Kişisel Ajandası" onblur="saveTitle()">
+      <span>🌸 Mücü'nün Kişisel Ajandası</span>
     </div>
     <div class="topbar-right">
       <span class="topbar-date" id="topbarDate"></span>
@@ -174,7 +215,7 @@ body{font-family:var(--font);background:var(--bg1);color:var(--txt1);min-height:
   <div class="section active" id="sec-home">
     <div class="hero-banner">
       <h2 id="heroGreet">Merhaba Mücü! 👋</h2>
-      <p id="heroSub">Bugünü kaydetmeye hazır mısın?</p>
+      <p>Bugünü kaydetmeye hazır mısın?</p>
     </div>
     <div class="stat-grid" id="statsGrid" onclick="openModal('stats')"></div>
     <div class="stat-more" onclick="openModal('stats')">📊 Tüm istatistikleri gör →</div>
@@ -210,7 +251,7 @@ body{font-family:var(--font);background:var(--bg1);color:var(--txt1);min-height:
       <button class="tab" onclick="switchHobbyTab('galeri')">🖼️ Galeri</button>
     </div>
     <div id="hobbiesContent"></div>
-    <button class="add-fab" style="background:var(--c3)" onclick="openModal('hobby')">+</button>
+    <button class="add-fab" style="background:var(--c3)" onclick="openNewHobby()">+</button>
   </div>
 
   <!-- TAKVİM -->
@@ -219,6 +260,13 @@ body{font-family:var(--font);background:var(--bg1);color:var(--txt1);min-height:
       <button onclick="calMonth(-1)">←</button>
       <span id="calTitle"></span>
       <button onclick="calMonth(1)">→</button>
+    </div>
+    <div class="cal-legend">
+      <div class="cal-legend-item"><div class="cal-legend-dot dot-gunluk"></div>Günlük</div>
+      <div class="cal-legend-item"><div class="cal-legend-dot dot-plan"></div>Plan</div>
+      <div class="cal-legend-item"><div class="cal-legend-dot dot-movie"></div>Film/Dizi</div>
+      <div class="cal-legend-item"><div class="cal-legend-dot dot-hobby"></div>Hobi</div>
+      <div class="cal-legend-item"><div class="cal-legend-dot dot-mekan"></div>Mekan</div>
     </div>
     <div class="cal-grid" id="calDayNames"></div>
     <div class="cal-grid" style="margin-top:4px" id="calGrid"></div>
@@ -245,7 +293,7 @@ body{font-family:var(--font);background:var(--bg1);color:var(--txt1);min-height:
         <button class="ie-btn export" onclick="exportData()">📤 Dışa Aktar</button>
         <div class="ie-btn import">📥 İçe Aktar<input type="file" accept=".json" onchange="importData(this)"></div>
       </div>
-      <p style="font-size:12px;color:var(--txt3);line-height:1.6">İçe aktarma mevcut verilerin üzerine yazar. Önce dışa aktar!</p>
+      <p style="font-size:12px;color:var(--txt3)">İçe aktarma mevcut verilerin üzerine yazar. Önce dışa aktar!</p>
     </div>
     <div class="card">
       <div class="card-title">🎨 Görünüm</div>
@@ -253,10 +301,6 @@ body{font-family:var(--font);background:var(--bg1);color:var(--txt1);min-height:
         <span style="font-size:14px">Karanlık mod</span>
         <button class="icon-btn" onclick="toggleDark()">🌙 Kapat/Aç</button>
       </div>
-    </div>
-    <div class="card">
-      <div class="card-title">✏️ Uygulama Başlığı</div>
-      <p style="font-size:13px;color:var(--txt2);margin-bottom:8px">Üst bardaki başlığa tıklayarak düzenleyebilirsin.</p>
     </div>
   </div>
 
@@ -296,9 +340,28 @@ body{font-family:var(--font);background:var(--bg1);color:var(--txt1);min-height:
       </div>
     </div>
     <div class="field" id="geziNoteField" style="display:none"><label>✈️ Gezi notu</label><input id="geziNote" placeholder="Nereye gittin?"></div>
-    <div class="field"><label>🎬 Film / dizi izledin mi?</label><input id="dayWatch" placeholder="İzlediklerini yaz..."></div>
-    <div class="field"><label>✨ İlk defa yaptığın bir şey?</label><input id="dayFirst" placeholder="Hayatımda ilk kez..."></div>
-    <div class="field"><label>💭 Hatırlamak istediğin an</label><textarea id="dayMemory" placeholder="Bir şey aklımda kaldı..." style="min-height:56px"></textarea></div>
+    <!-- İLKLERİM -->
+    <div class="checkbox-field">
+      <label>✨ İlklerim</label>
+      <div class="checkbox-toggle" id="firstToggle" onclick="toggleCheckbox('first')">
+        <div class="checkbox-icon" id="firstIcon">✓</div>
+        <span id="firstLabel">Hayatımda ilk kez bir şey yaptım!</span>
+      </div>
+      <div class="checkbox-text-field" id="firstTextField">
+        <input id="dayFirst" placeholder="Ne yaptın ilk kez?" style="margin-top:0">
+      </div>
+    </div>
+    <!-- HATIRLAMAK İSTEDİKLERİM -->
+    <div class="checkbox-field">
+      <label>💭 Hatırlamak İstediklerim</label>
+      <div class="checkbox-toggle" id="memoryToggle" onclick="toggleCheckbox('memory')">
+        <div class="checkbox-icon" id="memoryIcon">✓</div>
+        <span id="memoryLabel">Hatırlamak istediğim bir an var!</span>
+      </div>
+      <div class="checkbox-text-field" id="memoryTextField">
+        <textarea id="dayMemory" placeholder="Aklımda kalan şey..." style="margin-top:0;min-height:64px"></textarea>
+      </div>
+    </div>
     <div class="field"><label>📷 Fotoğraf</label>
       <div class="photo-upload" id="dayPhotoArea"><div>📷 Fotoğraf seç veya çek</div><input type="file" accept="image/*" onchange="handlePhoto(this,'day')"></div>
       <div class="photo-preview-wrap" id="dayPhotoWrap" style="display:none"><img id="dayPhotoImg"><button class="remove-photo" onclick="removePhoto('day')">✕</button></div>
@@ -307,7 +370,7 @@ body{font-family:var(--font);background:var(--bg1);color:var(--txt1);min-height:
   </div>
 </div>
 
-<!-- MODAL: İZLEDİM (yeni + düzenle) -->
+<!-- MODAL: İZLEDİM -->
 <div class="modal-overlay" id="modal-movie-watched">
   <div class="modal">
     <div class="modal-handle"></div>
@@ -331,7 +394,7 @@ body{font-family:var(--font);background:var(--bg1);color:var(--txt1);min-height:
   </div>
 </div>
 
-<!-- MODAL: İZLEYECEĞİM (yeni + düzenle) -->
+<!-- MODAL: İZLEYECEĞİM -->
 <div class="modal-overlay" id="modal-movie-watchlist">
   <div class="modal">
     <div class="modal-handle"></div>
@@ -362,7 +425,7 @@ body{font-family:var(--font);background:var(--bg1);color:var(--txt1);min-height:
     <div class="field"><label>📅 Ne zaman izledin?</label><input id="moveWatchedDate" type="date"></div>
     <div class="field"><label>⭐ Puanın</label><div class="stars" id="moveWatchedStars"></div></div>
     <div class="field"><label>💬 Not</label><textarea id="moveWatchedNote" placeholder="Ne düşündün?" style="min-height:56px"></textarea></div>
-    <div class="field"><label>📷 Görsel (isteğe bağlı)</label>
+    <div class="field"><label>📷 Görsel</label>
       <div class="photo-upload" id="moveWatchedPhotoArea"><div>📷 Görsel ekle</div><input type="file" accept="image/*" onchange="handlePhoto(this,'moveWatched')"></div>
       <div class="photo-preview-wrap" id="moveWatchedPhotoWrap" style="display:none"><img id="moveWatchedPhotoImg"><button class="remove-photo" onclick="removePhoto('moveWatched')">✕</button></div>
     </div>
@@ -377,10 +440,10 @@ body{font-family:var(--font);background:var(--bg1);color:var(--txt1);min-height:
     <div class="modal-title"><span id="hobbyModalTitle">🎨 Hobi Kaydı</span><button class="close-btn" onclick="closeModal('hobby')">✕</button></div>
     <input type="hidden" id="hobbyEditId">
     <div class="field"><label>🏷️ Hobi adı</label><input id="hobbyName" placeholder="Örn: Resim, gitar, koşu..."></div>
-    <div class="field"><label>📝 Ne yaptın / nasıl geçti?</label><textarea id="hobbyNote" placeholder="Bugün bu hobimde..."></textarea></div>
-    <div class="field"><label>⏱️ Süre (isteğe bağlı)</label><input id="hobbyDur" placeholder="Örn: 45 dakika, 2 saat..."></div>
-    <div class="field"><label>📷 Sonuç / an fotoğrafı</label>
-      <div class="photo-upload" id="hobbyPhotoArea"><div>📷 Fotoğraf seç veya çek</div><input type="file" accept="image/*" onchange="handlePhoto(this,'hobby')"></div>
+    <div class="field"><label>📝 Ne yaptın?</label><textarea id="hobbyNote" placeholder="Bugün bu hobimde..."></textarea></div>
+    <div class="field"><label>⏱️ Süre</label><input id="hobbyDur" placeholder="Örn: 45 dakika..."></div>
+    <div class="field"><label>📷 Fotoğraf</label>
+      <div class="photo-upload" id="hobbyPhotoArea"><div>📷 Fotoğraf seç</div><input type="file" accept="image/*" onchange="handlePhoto(this,'hobby')"></div>
       <div class="photo-preview-wrap" id="hobbyPhotoWrap" style="display:none"><img id="hobbyPhotoImg"><button class="remove-photo" onclick="removePhoto('hobby')">✕</button></div>
     </div>
     <button class="save-btn" style="background:var(--c3)" onclick="saveHobby()">💾 Kaydet</button>
@@ -431,7 +494,7 @@ body{font-family:var(--font);background:var(--bg1);color:var(--txt1);min-height:
         <button class="toggle-btn" onclick="selectMekanCat(this)">🌀 Diğer</button>
       </div>
     </div>
-    <div class="field"><label>⭐ Puanın (gittiysen)</label><div class="stars" id="mekanStars"></div></div>
+    <div class="field"><label>⭐ Puan (gittiysen)</label><div class="stars" id="mekanStars"></div></div>
     <div class="field"><label>💬 Not</label><textarea id="mekanNote" placeholder="Notlarını yaz..." style="min-height:56px"></textarea></div>
     <div class="field"><label>🔗 Link (konum, Instagram vs.)</label><input id="mekanLink" placeholder="https://..."></div>
     <div class="field"><label>📷 Fotoğraf</label>
@@ -442,7 +505,7 @@ body{font-family:var(--font);background:var(--bg1);color:var(--txt1);min-height:
   </div>
 </div>
 
-<!-- MODAL: MEKANI ZİYARET ETTİM -->
+<!-- MODAL: MEKAN ZİYARET -->
 <div class="modal-overlay" id="modal-mekan-visited">
   <div class="modal">
     <div class="modal-handle"></div>
@@ -479,10 +542,11 @@ const DB={
 let currentDay=new Date(),dayCache={};
 let activeMovieTab='izledim',activeHobbyTab='gunluk',activePlansTab='planlar';
 let photos={day:null,hobby:null,watched:null,watchlist:null,moveWatched:null,mekan:null,mekanVisited:null};
-let dayScore=0,watchedScore=0,moveWatchedScore=0,mekanScore=0,mekanVisitedScore=0;
+let dayScore=0,watchedScore=0,mekanScore=0,mekanVisitedScoreVal=0,moveWatchedScoreVal=0;
 let calDate=new Date();
 let selectedPlanCat='Kişisel',selectedMekanCat='Yemek';
 let selectedActivities=new Set();
+let dayFirstChecked=false,dayMemoryChecked=false;
 
 const MONTHS=['Ocak','Şubat','Mart','Nisan','Mayıs','Haziran','Temmuz','Ağustos','Eylül','Ekim','Kasım','Aralık'];
 const SHORT=['Oca','Şub','Mar','Nis','May','Haz','Tem','Ağu','Eyl','Eki','Kas','Ara'];
@@ -497,7 +561,6 @@ function dkey(d){return d.toISOString().split('T')[0]}
 function fmtShort(dk){const d=new Date(dk+'T12:00:00');return`${d.getDate()} ${SHORT[d.getMonth()]}`}
 function today(){return dkey(new Date())}
 
-// Init
 const GREETS=["Merhaba Mücü! 👋","Nasılsın bugün Mücü? 😊","Güzel bir gün olsun! ☀️","Bugünü kaydet Mücü! 📓","Harika şeyler oluyor! ✨","Ne güzel bir gün 🌸","Bugün ne yapacaksın? 🌟"];
 document.getElementById('topbarDate').textContent=fmtDate(new Date());
 document.getElementById('heroGreet').textContent=GREETS[new Date().getDay()%GREETS.length];
@@ -505,16 +568,11 @@ document.getElementById('watchedDate').value=today();
 document.getElementById('moveWatchedDate').value=today();
 document.getElementById('mekanVisitedDate').value=today();
 
-// Title
-const savedTitle=DB.get('appTitle');
-if(savedTitle)document.getElementById('appTitle').value=savedTitle;
-function saveTitle(){DB.set('appTitle',document.getElementById('appTitle').value);}
-
-// Dark mode
+/* DARK MODE */
 function toggleDark(){const isDark=document.body.getAttribute('data-dark')==='1';const val=isDark?'0':'1';document.body.setAttribute('data-dark',val);document.getElementById('darkToggle').textContent=isDark?'🌙':'☀️';DB.set('darkmode',val);}
 (function(){if(DB.get('darkmode')==='1'){document.body.setAttribute('data-dark','1');document.getElementById('darkToggle').textContent='☀️';}})();
 
-// Nav
+/* NAV */
 function showSection(id,btn){
   document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
   document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
@@ -528,94 +586,130 @@ function showSection(id,btn){
   if(id==='plans'){renderPlans();renderMekanlar();}
 }
 
-// Stars
-function renderStars(cid,score,cb){
-  const c=document.getElementById(cid);if(!c)return;c.innerHTML='';
-  for(let i=1;i<=10;i++){const s=document.createElement('span');s.className='star'+(i<=score?' on':'');s.textContent='⭐';s.onclick=()=>cb(i);c.appendChild(s);}
+/* MODAL */
+function openModal(t){if(t==='stats')renderStatsModal();document.getElementById('modal-'+t).classList.add('open');}
+function closeModal(t){document.getElementById('modal-'+t).classList.remove('open');}
+
+/* CHECKBOX TOGGLE */
+function toggleCheckbox(type){
+  if(type==='first'){
+    dayFirstChecked=!dayFirstChecked;
+    document.getElementById('firstToggle').classList.toggle('checked',dayFirstChecked);
+    document.getElementById('firstTextField').classList.toggle('visible',dayFirstChecked);
+    document.getElementById('firstIcon').textContent=dayFirstChecked?'✓':'✓';
+  } else {
+    dayMemoryChecked=!dayMemoryChecked;
+    document.getElementById('memoryToggle').classList.toggle('checked',dayMemoryChecked);
+    document.getElementById('memoryTextField').classList.toggle('visible',dayMemoryChecked);
+  }
+}
+function resetCheckboxes(){
+  dayFirstChecked=false;dayMemoryChecked=false;
+  document.getElementById('firstToggle').classList.remove('checked');
+  document.getElementById('firstTextField').classList.remove('visible');
+  document.getElementById('memoryToggle').classList.remove('checked');
+  document.getElementById('memoryTextField').classList.remove('visible');
+  document.getElementById('dayFirst').value='';
+  document.getElementById('dayMemory').value='';
+}
+function setCheckboxes(e){
+  dayFirstChecked=!!(e.first);
+  document.getElementById('firstToggle').classList.toggle('checked',dayFirstChecked);
+  document.getElementById('firstTextField').classList.toggle('visible',dayFirstChecked);
+  document.getElementById('dayFirst').value=e.first||'';
+  dayMemoryChecked=!!(e.memory);
+  document.getElementById('memoryToggle').classList.toggle('checked',dayMemoryChecked);
+  document.getElementById('memoryTextField').classList.toggle('visible',dayMemoryChecked);
+  document.getElementById('dayMemory').value=e.memory||'';
 }
 
-// Toggle single
-function toggleBtn(el,group){
-  document.querySelectorAll('[onclick*="\''+group+'\'"]').forEach(b=>b.classList.remove('on'));
-  el.classList.add('on');
-}
+/* STARS */
+function renderStars(cid,score,cb){const c=document.getElementById(cid);if(!c)return;c.innerHTML='';for(let i=1;i<=10;i++){const s=document.createElement('span');s.className='star'+(i<=score?' on':'');s.textContent='⭐';s.onclick=()=>cb(i);c.appendChild(s);}}
 
-// Activity multi
-function toggleActivity(el,act){
-  if(selectedActivities.has(act)){selectedActivities.delete(act);el.classList.remove('on');}
-  else{selectedActivities.add(act);el.classList.add('on');}
-  document.getElementById('geziNoteField').style.display=selectedActivities.has('gezi')?'block':'none';
-}
+/* TOGGLES */
+function toggleBtn(el,group){document.querySelectorAll('[onclick*="\''+group+'\'"]').forEach(b=>b.classList.remove('on'));el.classList.add('on');}
+function toggleActivity(el,act){if(selectedActivities.has(act)){selectedActivities.delete(act);el.classList.remove('on');}else{selectedActivities.add(act);el.classList.add('on');}document.getElementById('geziNoteField').style.display=selectedActivities.has('gezi')?'block':'none';}
+function selectPlanCat(el){document.querySelectorAll('#planCatRow .toggle-btn').forEach(b=>b.classList.remove('on'));el.classList.add('on');const txt=el.textContent.replace(/[🏠✈️🎵🎭🎬🤝📅💼🌀]/g,'').trim();selectedPlanCat=txt;document.getElementById('planOtherField').style.display=txt==='Diğer'?'block':'none';}
+function selectMekanCat(el){document.querySelectorAll('#mekanCatRow .toggle-btn').forEach(b=>b.classList.remove('on'));el.classList.add('on');selectedMekanCat=el.textContent.replace(/[🍽️☕🎭🌿🛍️🌀]/g,'').trim();}
 
-// Plan cat
-function selectPlanCat(el){
-  document.querySelectorAll('#planCatRow .toggle-btn').forEach(b=>b.classList.remove('on'));
-  el.classList.add('on');
-  const txt=el.textContent.replace(/[🏠✈️🎵🎭🎬🤝📅💼🌀]/g,'').trim();
-  selectedPlanCat=txt;
-  document.getElementById('planOtherField').style.display=txt==='Diğer'?'block':'none';
-}
-function selectMekanCat(el){
-  document.querySelectorAll('#mekanCatRow .toggle-btn').forEach(b=>b.classList.remove('on'));
-  el.classList.add('on');
-  selectedMekanCat=el.textContent.replace(/[🍽️☕🎭🌿🛍️🌀]/g,'').trim();
-}
-
-// Photos
+/* PHOTOS */
 function compressImage(file,cb){const r=new FileReader();r.onload=e=>{const img=new Image();img.onload=()=>{const c=document.createElement('canvas');const max=900;let w=img.width,h=img.height;if(w>max){h=Math.round(h*(max/w));w=max;}if(h>max){w=Math.round(w*(max/h));h=max;}c.width=w;c.height=h;c.getContext('2d').drawImage(img,0,0,w,h);cb(c.toDataURL('image/jpeg',0.65));};img.src=e.target.result;};r.readAsDataURL(file);}
 function showPhotoPreview(ctx,src){document.getElementById(ctx+'PhotoArea').style.display='none';document.getElementById(ctx+'PhotoWrap').style.display='block';document.getElementById(ctx+'PhotoImg').src=src;}
 function clearPhotoPreview(ctx){document.getElementById(ctx+'PhotoArea').style.display='block';document.getElementById(ctx+'PhotoWrap').style.display='none';document.getElementById(ctx+'PhotoImg').src='';}
 function removePhoto(ctx){photos[ctx]=null;clearPhotoPreview(ctx);}
 function handlePhoto(input,ctx){const f=input.files[0];if(!f)return;compressImage(f,d=>{photos[ctx]=d;showPhotoPreview(ctx,d);});}
 
-// Swipe to edit/delete
+/* SWIPE */
 function makeSwipeable(el,onEdit,onDelete){
-  let startX=0,dx=0,swiping=false;
   const item=el.querySelector('.list-item,.hobby-log-item,.mekan-card');
   const editBtn=el.querySelector('.swipe-action-edit');
   const delBtn=el.querySelector('.swipe-action-delete');
-  el.addEventListener('touchstart',e=>{startX=e.touches[0].clientX;dx=0;swiping=true;},{passive:true});
-  el.addEventListener('touchmove',e=>{
-    if(!swiping)return;
-    dx=e.touches[0].clientX-startX;
-    if(dx<0&&item)item.style.transform=`translateX(${Math.max(dx,-128)}px)`;
+  if(!item)return;
+
+  function showActions(){
+    item.style.transform='translateX(-128px)';
+    if(editBtn){editBtn.style.display='flex';}
+    if(delBtn){delBtn.style.display='flex';}
+  }
+  function hideActions(){
+    item.style.transform='translateX(0)';
+    if(editBtn)editBtn.style.display='none';
+    if(delBtn)delBtn.style.display='none';
+  }
+
+  // Touch
+  let startX=0,startY=0,moved=false;
+  item.addEventListener('touchstart',e=>{
+    startX=e.touches[0].clientX;startY=e.touches[0].clientY;moved=false;
   },{passive:true});
-  el.addEventListener('touchend',()=>{
-    swiping=false;
-    if(dx<-100){
-      if(item)item.style.transform='translateX(-128px)';
-      if(editBtn)editBtn.style.display='flex';
-      if(delBtn)delBtn.style.display='flex';
-    } else {
-      if(item)item.style.transform='translateX(0)';
-      if(editBtn)editBtn.style.display='none';
-      if(delBtn)delBtn.style.display='none';
-    }
+  item.addEventListener('touchmove',e=>{
+    const dx=e.touches[0].clientX-startX;
+    const dy=e.touches[0].clientY-startY;
+    if(Math.abs(dy)>Math.abs(dx))return;
+    moved=true;
+    if(dx<0)item.style.transform=`translateX(${Math.max(dx,-128)}px)`;
+    else if(dx>0&&item.style.transform!=='translateX(0px)')item.style.transform=`translateX(${Math.min(dx-128,0)}px)`;
+  },{passive:true});
+  item.addEventListener('touchend',e=>{
+    const dx=e.changedTouches[0].clientX-startX;
+    if(!moved)return;
+    if(dx<-60)showActions();
+    else hideActions();
   });
-  function reset(){if(item)item.style.transform='translateX(0)';if(editBtn)editBtn.style.display='none';if(delBtn)delBtn.style.display='none';}
-  if(editBtn)editBtn.addEventListener('click',()=>{reset();onEdit();});
-  if(delBtn)delBtn.addEventListener('click',()=>{reset();if(confirm('Bu kaydı silmek istediğine emin misin?'))onDelete();});
+
+  // Kapat: başka yere dokununca
+  document.addEventListener('touchstart',e=>{
+    if(!el.contains(e.target))hideActions();
+  },{passive:true});
+
+  // Edit butonu
+  if(editBtn){
+    editBtn.addEventListener('click',e=>{
+      e.stopPropagation();hideActions();
+      setTimeout(()=>onEdit(),50);
+    });
+  }
+
+  // Delete butonu
+  if(delBtn){
+    delBtn.addEventListener('click',e=>{
+      e.stopPropagation();hideActions();
+      setTimeout(()=>{
+        if(confirm('Kaydı silmek istediğine emin misin?'))onDelete();
+      },50);
+    });
+  }
 }
 
-// Modal
-function openModal(type){
-  if(type==='stats')renderStatsModal();
-  document.getElementById('modal-'+type).classList.add('open');
-}
-function closeModal(t){document.getElementById('modal-'+t).classList.remove('open')}
-
-// Day
+/* GÜNLÜK */
 function changeDay(delta){const d=new Date(currentDay);d.setDate(d.getDate()+delta);if(d>new Date())return;currentDay=d;renderDaily();}
 function openDayModal(dk){
-  if(dk){const d=new Date(dk+'T12:00:00');currentDay=d;}
+  if(dk)currentDay=new Date(dk+'T12:00:00');
   const k=dkey(currentDay);
   document.getElementById('modalDayTitle').textContent=fmtDate(currentDay);
   const e=dayCache[k]||{};
   document.getElementById('dayNote').value=e.note||'';
   document.getElementById('dayHobby').value=e.hobby||'';
-  document.getElementById('dayWatch').value=e.watch||'';
-  document.getElementById('dayFirst').value=e.first||'';
-  document.getElementById('dayMemory').value=e.memory||'';
   dayScore=e.score||0;
   renderStars('starRow',dayScore,s=>{dayScore=s;renderStars('starRow',s,arguments.callee)});
   document.querySelectorAll('[onclick*="\'loc\'"]').forEach(b=>b.classList.toggle('on',!!e.loc&&b.textContent.includes(e.loc)));
@@ -623,16 +717,17 @@ function openDayModal(dk){
   document.querySelectorAll('#activityRow .toggle-btn').forEach(b=>{const m=b.getAttribute('onclick').match(/'([^']+)'/);if(m)b.classList.toggle('on',selectedActivities.has(m[1]));});
   document.getElementById('geziNote').value=e.geziNote||'';
   document.getElementById('geziNoteField').style.display=selectedActivities.has('gezi')?'block':'none';
+  setCheckboxes(e);
   if(e.photo){showPhotoPreview('day',e.photo);photos.day=e.photo;}else{clearPhotoPreview('day');photos.day=null;}
   document.getElementById('modal-day').classList.add('open');
 }
 function saveDay(){
   const dk=dkey(currentDay);
   const locEl=document.querySelector('[onclick*="\'loc\'"].on');
-  const entry={score:dayScore,note:document.getElementById('dayNote').value,hobby:document.getElementById('dayHobby').value,watch:document.getElementById('dayWatch').value,first:document.getElementById('dayFirst').value,memory:document.getElementById('dayMemory').value,loc:locEl?locEl.textContent.replace(/[🌳🏠]/g,'').trim():'',activities:Array.from(selectedActivities),geziNote:document.getElementById('geziNote').value,photo:photos.day||null,date:dk};
+  const entry={score:dayScore,note:document.getElementById('dayNote').value,hobby:document.getElementById('dayHobby').value,geziNote:document.getElementById('geziNote').value,activities:Array.from(selectedActivities),first:dayFirstChecked?document.getElementById('dayFirst').value:'',memory:dayMemoryChecked?document.getElementById('dayMemory').value:'',loc:locEl?locEl.textContent.replace(/[🌳🏠]/g,'').trim():'',photo:photos.day||null,date:dk};
   dayCache[dk]=entry;DB.set('day:'+dk,entry);closeModal('day');renderDaily();renderHome();
 }
-function deleteDay(dk){if(!confirm('Bu günün kaydını silmek istediğine emin misin?'))return;delete dayCache[dk];DB.remove('day:'+dk);renderDaily();renderHome();}
+function deleteDay(dk){if(!confirm('Kaydı silmek istediğine emin misin?'))return;delete dayCache[dk];DB.remove('day:'+dk);renderDaily();renderHome();}
 function renderDaily(){
   document.getElementById('currentDayLabel').textContent=fmtDate(currentDay);
   const dk=dkey(currentDay);
@@ -646,9 +741,8 @@ function renderDaily(){
       <span style="font-size:14px;color:var(--c3);font-weight:600">${e.score}/10</span>
     </div>
     <div class="tags">${e.loc?`<span class="tag pu">📍 ${e.loc}</span>`:''}${acts}${e.hobby?`<span class="tag am">🎨 ${e.hobby}</span>`:''}</div>
-    ${e.note?`<p style="font-size:14px;margin-top:10px;line-height:1.65;color:var(--txt1)">${e.note}</p>`:''}
+    ${e.note?`<p style="font-size:14px;margin-top:10px;line-height:1.65">${e.note}</p>`:''}
     ${e.geziNote?`<p style="font-size:13px;margin-top:6px;color:var(--txt2)">✈️ ${e.geziNote}</p>`:''}
-    ${e.watch?`<p style="font-size:13px;margin-top:8px;color:var(--txt2)">🎬 ${e.watch}</p>`:''}
     ${e.first?`<div style="margin-top:8px;padding:10px 12px;background:var(--c3l);border-radius:10px;font-size:13px;color:var(--c3)">✨ İlk kez: ${e.first}</div>`:''}
     ${e.memory?`<div style="margin-top:8px;padding:10px 12px;background:var(--c1l);border-radius:10px;font-size:13px;color:var(--c1)">💭 ${e.memory}</div>`:''}
     ${e.photo?`<img src="${e.photo}" style="width:100%;border-radius:10px;margin-top:10px;max-height:220px;object-fit:cover">`:''}
@@ -659,44 +753,33 @@ function renderDaily(){
   </div>`;
 }
 
-// Movies
+/* FİLM/DİZİ */
 function openMovieModal(){
   if(activeMovieTab==='izledim'){
-    document.getElementById('watchedModalTitle').textContent='✅ İzledim';
-    document.getElementById('watchedEditId').value='';
-    document.getElementById('watchedName').value='';document.getElementById('watchedNote').value='';
-    document.getElementById('watchedDate').value=today();
+    document.getElementById('watchedModalTitle').textContent='✅ İzledim';document.getElementById('watchedEditId').value='';
+    document.getElementById('watchedName').value='';document.getElementById('watchedNote').value='';document.getElementById('watchedDate').value=today();
     watchedScore=0;renderStars('watchedStars',0,s=>{watchedScore=s;renderStars('watchedStars',s,arguments.callee)});
     document.querySelectorAll('[onclick*="\'wtype\'"]').forEach((b,i)=>b.classList.toggle('on',i===0));
-    clearPhotoPreview('watched');photos.watched=null;
-    document.getElementById('modal-movie-watched').classList.add('open');
+    clearPhotoPreview('watched');photos.watched=null;document.getElementById('modal-movie-watched').classList.add('open');
   } else {
-    document.getElementById('watchlistModalTitle').textContent='🔖 İzleyeceğim';
-    document.getElementById('watchlistEditId').value='';
+    document.getElementById('watchlistModalTitle').textContent='🔖 İzleyeceğim';document.getElementById('watchlistEditId').value='';
     document.getElementById('watchlistName').value='';document.getElementById('watchlistNote').value='';
     document.querySelectorAll('[onclick*="\'wltype\'"]').forEach((b,i)=>b.classList.toggle('on',i===0));
-    clearPhotoPreview('watchlist');photos.watchlist=null;
-    document.getElementById('modal-movie-watchlist').classList.add('open');
+    clearPhotoPreview('watchlist');photos.watchlist=null;document.getElementById('modal-movie-watchlist').classList.add('open');
   }
 }
 function editMovie(id){
-  const movies=DB.get('movies')||[];
-  const m=movies.find(x=>x.id===id);if(!m)return;
+  const movies=DB.get('movies')||[];const m=movies.find(x=>x.id===id);if(!m)return;
   if(m.status==='izledim'){
-    document.getElementById('watchedModalTitle').textContent='✏️ Düzenle';
-    document.getElementById('watchedEditId').value=id;
-    document.getElementById('watchedName').value=m.name;
-    document.getElementById('watchedDate').value=m.date||today();
-    document.getElementById('watchedNote').value=m.note||'';
+    document.getElementById('watchedModalTitle').textContent='✏️ Düzenle';document.getElementById('watchedEditId').value=id;
+    document.getElementById('watchedName').value=m.name;document.getElementById('watchedDate').value=m.date||today();document.getElementById('watchedNote').value=m.note||'';
     watchedScore=m.score||0;renderStars('watchedStars',watchedScore,s=>{watchedScore=s;renderStars('watchedStars',s,arguments.callee)});
     document.querySelectorAll('[onclick*="\'wtype\'"]').forEach(b=>b.classList.toggle('on',b.textContent.includes(m.type)));
     if(m.photo){showPhotoPreview('watched',m.photo);photos.watched=m.photo;}else{clearPhotoPreview('watched');photos.watched=null;}
     document.getElementById('modal-movie-watched').classList.add('open');
   } else {
-    document.getElementById('watchlistModalTitle').textContent='✏️ Düzenle';
-    document.getElementById('watchlistEditId').value=id;
-    document.getElementById('watchlistName').value=m.name;
-    document.getElementById('watchlistNote').value=m.note||'';
+    document.getElementById('watchlistModalTitle').textContent='✏️ Düzenle';document.getElementById('watchlistEditId').value=id;
+    document.getElementById('watchlistName').value=m.name;document.getElementById('watchlistNote').value=m.note||'';
     document.querySelectorAll('[onclick*="\'wltype\'"]').forEach(b=>b.classList.toggle('on',b.textContent.includes(m.type)));
     if(m.photo){showPhotoPreview('watchlist',m.photo);photos.watchlist=m.photo;}else{clearPhotoPreview('watchlist');photos.watchlist=null;}
     document.getElementById('modal-movie-watchlist').classList.add('open');
@@ -707,35 +790,28 @@ function saveMovieWatched(){
   const tEl=document.querySelector('[onclick*="\'wtype\'"].on');
   const editId=parseInt(document.getElementById('watchedEditId').value)||null;
   const movies=DB.get('movies')||[];
-  if(editId){const i=movies.findIndex(m=>m.id===editId);if(i>-1){movies[i]={...movies[i],name,type:tEl?tEl.textContent.replace(/[🎥📺]/g,'').trim():'Film',score:watchedScore,note:document.getElementById('watchedNote').value,date:document.getElementById('watchedDate').value,photo:photos.watched||movies[i].photo};DB.set('movies',movies);}}
-  else{const item={id:Date.now(),name,type:tEl?tEl.textContent.replace(/[🎥📺]/g,'').trim():'Film',status:'izledim',score:watchedScore,note:document.getElementById('watchedNote').value,photo:photos.watched||null,date:document.getElementById('watchedDate').value||today()};movies.unshift(item);DB.set('movies',movies);}
-  closeModal('movie-watched');renderMovies();renderHome();
+  if(editId){const i=movies.findIndex(m=>m.id===editId);if(i>-1)movies[i]={...movies[i],name,type:tEl?tEl.textContent.replace(/[🎥📺]/g,'').trim():'Film',score:watchedScore,note:document.getElementById('watchedNote').value,date:document.getElementById('watchedDate').value,photo:photos.watched||movies[i].photo};}
+  else movies.unshift({id:Date.now(),name,type:tEl?tEl.textContent.replace(/[🎥📺]/g,'').trim():'Film',status:'izledim',score:watchedScore,note:document.getElementById('watchedNote').value,photo:photos.watched||null,date:document.getElementById('watchedDate').value||today()});
+  DB.set('movies',movies);closeModal('movie-watched');renderMovies();renderHome();
 }
 function saveMovieWatchlist(){
   const name=document.getElementById('watchlistName').value.trim();if(!name)return;
   const tEl=document.querySelector('[onclick*="\'wltype\'"].on');
   const editId=parseInt(document.getElementById('watchlistEditId').value)||null;
   const movies=DB.get('movies')||[];
-  if(editId){const i=movies.findIndex(m=>m.id===editId);if(i>-1){movies[i]={...movies[i],name,type:tEl?tEl.textContent.replace(/[🎥📺]/g,'').trim():'Film',note:document.getElementById('watchlistNote').value,photo:photos.watchlist||movies[i].photo};DB.set('movies',movies);}}
-  else{const item={id:Date.now(),name,type:tEl?tEl.textContent.replace(/[🎥📺]/g,'').trim():'Film',status:'izleyecek',note:document.getElementById('watchlistNote').value,photo:photos.watchlist||null,date:today()};movies.unshift(item);DB.set('movies',movies);}
-  closeModal('movie-watchlist');renderMovies();renderHome();
+  if(editId){const i=movies.findIndex(m=>m.id===editId);if(i>-1)movies[i]={...movies[i],name,type:tEl?tEl.textContent.replace(/[🎥📺]/g,'').trim():'Film',note:document.getElementById('watchlistNote').value,photo:photos.watchlist||movies[i].photo};}
+  else movies.unshift({id:Date.now(),name,type:tEl?tEl.textContent.replace(/[🎥📺]/g,'').trim():'Film',status:'izleyecek',note:document.getElementById('watchlistNote').value,photo:photos.watchlist||null,date:today()});
+  DB.set('movies',movies);closeModal('movie-watchlist');renderMovies();renderHome();
 }
-let moveWatchedScoreVal=0;
 function openMoveToWatched(id){
-  document.getElementById('moveToWatchedId').value=id;
-  document.getElementById('moveWatchedDate').value=today();
-  document.getElementById('moveWatchedNote').value='';
+  document.getElementById('moveToWatchedId').value=id;document.getElementById('moveWatchedDate').value=today();document.getElementById('moveWatchedNote').value='';
   moveWatchedScoreVal=0;renderStars('moveWatchedStars',0,s=>{moveWatchedScoreVal=s;renderStars('moveWatchedStars',s,arguments.callee)});
-  clearPhotoPreview('moveWatched');photos.moveWatched=null;
-  document.getElementById('modal-move-to-watched').classList.add('open');
+  clearPhotoPreview('moveWatched');photos.moveWatched=null;document.getElementById('modal-move-to-watched').classList.add('open');
 }
 function confirmMoveToWatched(){
-  const id=parseInt(document.getElementById('moveToWatchedId').value);
-  const movies=DB.get('movies')||[];const i=movies.findIndex(m=>m.id===id);
+  const id=parseInt(document.getElementById('moveToWatchedId').value);const movies=DB.get('movies')||[];const i=movies.findIndex(m=>m.id===id);
   if(i>-1){movies[i].status='izledim';movies[i].score=moveWatchedScoreVal;movies[i].note=document.getElementById('moveWatchedNote').value;movies[i].date=document.getElementById('moveWatchedDate').value||today();if(photos.moveWatched)movies[i].photo=photos.moveWatched;DB.set('movies',movies);}
-  closeModal('move-to-watched');activeMovieTab='izledim';
-  document.querySelectorAll('#sec-movies .tab').forEach((t,i)=>t.classList.toggle('active',i===0));
-  renderMovies();renderHome();
+  closeModal('move-to-watched');activeMovieTab='izledim';document.querySelectorAll('#sec-movies .tab').forEach((t,i)=>t.classList.toggle('active',i===0));renderMovies();renderHome();
 }
 function renderMovies(){
   const movies=DB.get('movies')||[];const filtered=movies.filter(m=>m.status===activeMovieTab);
@@ -744,19 +820,16 @@ function renderMovies(){
   cont.innerHTML='';
   filtered.forEach(m=>{
     const wrap=document.createElement('div');wrap.className='swipe-wrap';
-    const dateStr=m.date?`<span style="font-size:11px;color:var(--txt2)">📅 ${fmtShort(m.date)}</span>`:'';
-    const scoreStr=m.score?`<span style="font-size:11px">${'⭐'.repeat(m.score)}</span>`:'';
     wrap.innerHTML=`
-      <div class="swipe-actions">
-        <div class="swipe-action-edit">✏️</div>
-        <div class="swipe-action-delete">🗑️</div>
-      </div>
+      <div class="swipe-actions"><div class="swipe-action-edit">✏️</div><div class="swipe-action-delete">🗑️</div></div>
       <div class="list-item">
         ${m.photo?`<img src="${m.photo}" class="list-item-photo">`:`<div style="width:52px;height:52px;border-radius:10px;background:var(--c2l);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0">${m.type==='Film'?'🎥':'📺'}</div>`}
         <div class="list-item-body">
           <div class="list-item-title">${m.name}</div>
           <div style="display:flex;gap:6px;align-items:center;margin-top:2px;flex-wrap:wrap">
-            <span style="font-size:12px;color:var(--txt2)">${m.type}</span>${dateStr}${scoreStr}
+            <span style="font-size:12px;color:var(--txt2)">${m.type}</span>
+            ${m.date?`<span style="font-size:11px;color:var(--txt2)">📅 ${fmtShort(m.date)}</span>`:''}
+            ${m.score?`<span style="font-size:11px">${'⭐'.repeat(m.score)}</span>`:''}
           </div>
           ${m.note?`<div style="font-size:12px;color:var(--txt2);margin-top:2px">${m.note}</div>`:''}
         </div>
@@ -768,65 +841,37 @@ function renderMovies(){
 }
 function switchMovieTab(tab){activeMovieTab=tab;document.querySelectorAll('#sec-movies .tab').forEach((t,i)=>t.classList.toggle('active',['izledim','izleyecek'][i]===tab));renderMovies();}
 
-// Hobbies
+/* HOBİLER */
+function openNewHobby(){document.getElementById('hobbyModalTitle').textContent='🎨 Hobi Kaydı';document.getElementById('hobbyEditId').value='';document.getElementById('hobbyName').value='';document.getElementById('hobbyNote').value='';document.getElementById('hobbyDur').value='';clearPhotoPreview('hobby');photos.hobby=null;document.getElementById('modal-hobby').classList.add('open');}
+function editHobby(id){const h=(DB.get('hobbies')||[]).find(x=>x.id===id);if(!h)return;document.getElementById('hobbyModalTitle').textContent='✏️ Hobi Düzenle';document.getElementById('hobbyEditId').value=id;document.getElementById('hobbyName').value=h.name;document.getElementById('hobbyNote').value=h.note||'';document.getElementById('hobbyDur').value=h.dur||'';if(h.photo){showPhotoPreview('hobby',h.photo);photos.hobby=h.photo;}else{clearPhotoPreview('hobby');photos.hobby=null;}document.getElementById('modal-hobby').classList.add('open');}
 function saveHobby(){
   const name=document.getElementById('hobbyName').value.trim();if(!name)return;
   const editId=parseInt(document.getElementById('hobbyEditId').value)||null;
   const item={id:editId||Date.now(),name,note:document.getElementById('hobbyNote').value,dur:document.getElementById('hobbyDur').value,photo:photos.hobby||null,date:dkey(new Date())};
   const ex=DB.get('hobbies')||[];
-  if(editId){const i=ex.findIndex(h=>h.id===editId);if(i>-1){if(!photos.hobby)item.photo=ex[i].photo;ex[i]=item;}else ex.unshift(item);}
-  else ex.unshift(item);
+  if(editId){const i=ex.findIndex(h=>h.id===editId);if(i>-1){if(!photos.hobby)item.photo=ex[i].photo;ex[i]=item;}else ex.unshift(item);}else ex.unshift(item);
   DB.set('hobbies',ex);closeModal('hobby');renderHobbies();
-}
-function editHobby(id){
-  const hobbies=DB.get('hobbies')||[];const h=hobbies.find(x=>x.id===id);if(!h)return;
-  document.getElementById('hobbyModalTitle').textContent='✏️ Hobi Düzenle';
-  document.getElementById('hobbyEditId').value=id;
-  document.getElementById('hobbyName').value=h.name;
-  document.getElementById('hobbyNote').value=h.note||'';
-  document.getElementById('hobbyDur').value=h.dur||'';
-  if(h.photo){showPhotoPreview('hobby',h.photo);photos.hobby=h.photo;}else{clearPhotoPreview('hobby');photos.hobby=null;}
-  document.getElementById('modal-hobby').classList.add('open');
-}
-function openNewHobby(){
-  document.getElementById('hobbyModalTitle').textContent='🎨 Hobi Kaydı';
-  document.getElementById('hobbyEditId').value='';
-  document.getElementById('hobbyName').value='';document.getElementById('hobbyNote').value='';document.getElementById('hobbyDur').value='';
-  clearPhotoPreview('hobby');photos.hobby=null;
-  document.getElementById('modal-hobby').classList.add('open');
 }
 function renderHobbies(){
   const hobbies=DB.get('hobbies')||[];const cont=document.getElementById('hobbiesContent');
-  if(!hobbies.length){cont.innerHTML='<div class="empty">🎨 Henüz hobi kaydı yok.<br>+ butonuna bas!</div>';return;}
-  if(activeHobbyTab==='galeri'){
-    const wp=hobbies.filter(h=>h.photo);
-    if(!wp.length){cont.innerHTML='<div class="empty">📷 Fotoğraflı kayıt yok henüz.</div>';return;}
-    cont.innerHTML=`<div class="hobby-grid">${wp.map(h=>`<div class="hobby-card"><img src="${h.photo}"><div class="hobby-card-body"><div class="hobby-card-name">${h.name}</div><div class="hobby-card-date">${fmtShort(h.date)}</div></div></div>`).join('')}</div>`;
-  } else {
-    cont.innerHTML='';
-    hobbies.forEach(h=>{
-      const wrap=document.createElement('div');wrap.className='swipe-wrap';wrap.style.marginBottom='8px';
-      wrap.innerHTML=`
-        <div class="swipe-actions">
-          <div class="swipe-action-edit">✏️</div>
-          <div class="swipe-action-delete">🗑️</div>
-        </div>
-        <div class="hobby-log-item" style="margin-bottom:0;border-radius:14px;border:0.5px solid var(--brd)">
-          <div class="hobby-log-header">
-            <div style="display:flex;align-items:center;gap:8px"><span class="tag am" style="font-size:12px">🎨 ${h.name}</span>${h.dur?`<span style="font-size:12px;color:var(--txt2)">⏱️ ${h.dur}</span>`:''}</div>
-            <span style="font-size:12px;color:var(--txt2)">📅 ${fmtShort(h.date)}</span>
-          </div>
-          ${h.note?`<div style="padding:0 14px 10px;font-size:13px;color:var(--txt2)">${h.note}</div>`:''}
-          ${h.photo?`<img src="${h.photo}" class="hobby-log-img">`:''}
-        </div>`;
-      makeSwipeable(wrap,()=>editHobby(h.id),()=>{const items=DB.get('hobbies')||[];DB.set('hobbies',items.filter(i=>i.id!==h.id));renderHobbies();});
-      cont.appendChild(wrap);
-    });
-  }
+  if(!hobbies.length){cont.innerHTML='<div class="empty">🎨 Henüz hobi kaydı yok.</div>';return;}
+  if(activeHobbyTab==='galeri'){const wp=hobbies.filter(h=>h.photo);if(!wp.length){cont.innerHTML='<div class="empty">📷 Fotoğraflı kayıt yok.</div>';return;}cont.innerHTML=`<div class="hobby-grid">${wp.map(h=>`<div class="hobby-card"><img src="${h.photo}"><div class="hobby-card-body"><div class="hobby-card-name">${h.name}</div><div class="hobby-card-date">${fmtShort(h.date)}</div></div></div>`).join('')}</div>`;return;}
+  cont.innerHTML='';
+  hobbies.forEach(h=>{
+    const wrap=document.createElement('div');wrap.className='swipe-wrap';wrap.style.marginBottom='8px';
+    wrap.innerHTML=`<div class="swipe-actions"><div class="swipe-action-edit">✏️</div><div class="swipe-action-delete">🗑️</div></div>
+      <div class="hobby-log-item" style="margin-bottom:0;border-radius:14px;border:0.5px solid var(--brd)">
+        <div class="hobby-log-header"><div style="display:flex;align-items:center;gap:8px"><span class="tag am" style="font-size:12px">🎨 ${h.name}</span>${h.dur?`<span style="font-size:12px;color:var(--txt2)">⏱️ ${h.dur}</span>`:''}</div><span style="font-size:12px;color:var(--txt2)">📅 ${fmtShort(h.date)}</span></div>
+        ${h.note?`<div style="padding:0 14px 10px;font-size:13px;color:var(--txt2)">${h.note}</div>`:''}
+        ${h.photo?`<img src="${h.photo}" class="hobby-log-img">`:''}
+      </div>`;
+    makeSwipeable(wrap,()=>editHobby(h.id),()=>{const items=DB.get('hobbies')||[];DB.set('hobbies',items.filter(i=>i.id!==h.id));renderHobbies();});
+    cont.appendChild(wrap);
+  });
 }
 function switchHobbyTab(tab){activeHobbyTab=tab;document.querySelectorAll('#sec-hobbies .tab').forEach((t,i)=>t.classList.toggle('active',['gunluk','galeri'][i]===tab));renderHobbies();}
 
-// Calendar
+/* TAKVİM */
 function renderCalendar(){
   const y=calDate.getFullYear(),m=calDate.getMonth();
   document.getElementById('calTitle').textContent=`${MONTHS[m]} ${y}`;
@@ -835,42 +880,61 @@ function renderCalendar(){
   const daysInMonth=new Date(y,m+1,0).getDate();const todayStr=today();
   const entrySet=new Set(DB.keys('day:').map(k=>k.replace('day:','')));
   const plans=DB.get('plans')||[];const planDates=new Set();plans.forEach(p=>{if(p.date)planDates.add(p.date);});
+  // movies by date
+  const movies=DB.get('movies')||[];const movieDates=new Set();movies.filter(m=>m.status==='izledim'&&m.date).forEach(m=>movieDates.add(m.date));
+  // hobbies by date
+  const hobbies=DB.get('hobbies')||[];const hobbyDates=new Set();hobbies.forEach(h=>hobbyDates.add(h.date));
+  // mekan visited dates
+  const mekanlar=DB.get('mekanlar')||[];const mekanDates=new Set();mekanlar.filter(m=>m.visited&&m.visitedDate).forEach(m=>mekanDates.add(m.visitedDate));
   let html='';
   for(let i=0;i<startDow;i++){const prev=new Date(y,m,1-startDow+i);html+=`<div class="cal-day other-month">${prev.getDate()}</div>`;}
   for(let d=1;d<=daysInMonth;d++){
     const dk=`${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
-    const isToday=dk===todayStr;const hasEntry=entrySet.has(dk);const hasPlan=planDates.has(dk);const isFuture=dk>todayStr;
-    const dots=(hasEntry?`<div class="cal-dot entry"></div>`:'')+(hasPlan?`<div class="cal-dot plan"></div>`:'');
+    const isToday=dk===todayStr;const hasEntry=entrySet.has(dk);const isFuture=dk>todayStr;
+    const dots=[
+      entrySet.has(dk)?'<div class="cal-dot dot-gunluk"></div>':'',
+      planDates.has(dk)?'<div class="cal-dot dot-plan"></div>':'',
+      movieDates.has(dk)?'<div class="cal-dot dot-movie"></div>':'',
+      hobbyDates.has(dk)?'<div class="cal-dot dot-hobby"></div>':'',
+      mekanDates.has(dk)?'<div class="cal-dot dot-mekan"></div>':'',
+    ].join('');
     html+=`<div class="cal-day${hasEntry?' has-entry':''}${isToday?' today':''}${isFuture?' future':''}" onclick="${isFuture?'':`calSelect('${dk}')`}">${d}${dots?`<div class="cal-dots">${dots}</div>`:''}</div>`;
   }
-  document.getElementById('calGrid').innerHTML=html;
-  document.getElementById('calEntry').innerHTML='';
+  document.getElementById('calGrid').innerHTML=html;document.getElementById('calEntry').innerHTML='';
 }
 function calMonth(delta){calDate=new Date(calDate.getFullYear(),calDate.getMonth()+delta,1);renderCalendar();}
 function calSelect(dk){
   const entry=DB.get('day:'+dk);const plans=DB.get('plans')||[];const dayPlans=plans.filter(p=>p.date===dk);
+  const movies=DB.get('movies')||[];const dayMovies=movies.filter(m=>m.status==='izledim'&&m.date===dk);
+  const hobbies=DB.get('hobbies')||[];const dayHobbies=hobbies.filter(h=>h.date===dk);
+  const mekanlar=DB.get('mekanlar')||[];const dayMekanlar=mekanlar.filter(m=>m.visited&&m.visitedDate===dk);
   const cont=document.getElementById('calEntry');const d=new Date(dk+'T12:00:00');let html='';
   if(entry){
     const acts=(entry.activities||[]).map(a=>`<span class="tag gr" style="font-size:11px">${ACT_LABELS[a]||a}</span>`).join('');
     html+=`<div class="entry-card">
       <div class="entry-header"><span class="entry-date">📅 ${fmtDate(d)}</span><span class="entry-score">${'⭐'.repeat(Math.min(entry.score,5))} ${entry.score}/10</span></div>
       <div class="tags">${entry.loc?`<span class="tag pu">📍 ${entry.loc}</span>`:''}${acts}${entry.hobby?`<span class="tag am">🎨 ${entry.hobby}</span>`:''}</div>
-      ${entry.note?`<p style="font-size:13px;color:var(--txt2);margin-top:8px;line-height:1.6">${entry.note}</p>`:''}
+      ${entry.note?`<p style="font-size:13px;color:var(--txt2);margin-top:8px">${entry.note}</p>`:''}
+      ${entry.first?`<div style="margin-top:6px;padding:8px 10px;background:var(--c3l);border-radius:8px;font-size:12px;color:var(--c3)">✨ ${entry.first}</div>`:''}
+      ${entry.memory?`<div style="margin-top:6px;padding:8px 10px;background:var(--c1l);border-radius:8px;font-size:12px;color:var(--c1)">💭 ${entry.memory}</div>`:''}
       ${entry.photo?`<img src="${entry.photo}" class="entry-thumb">`:''}
-      <button style="width:100%;margin-top:10px;padding:9px;background:var(--bg2);border:0.5px solid var(--brd2);border-radius:10px;cursor:pointer;font-size:13px;color:var(--txt1);font-weight:600" onclick="currentDay=new Date('${dk}T12:00:00');showSection('daily',null)">✏️ Düzenle</button>
+      <button style="width:100%;margin-top:10px;padding:9px;background:var(--bg2);border:0.5px solid var(--brd2);border-radius:10px;cursor:pointer;font-size:13px;font-weight:600;color:var(--txt1)" onclick="currentDay=new Date('${dk}T12:00:00');showSection('daily',null)">✏️ Düzenle</button>
     </div>`;
   } else {
     html+=`<div class="card"><div style="text-align:center;padding:16px 0"><p style="font-size:13px;color:var(--txt2);margin-bottom:10px">🌱 ${fmtDate(d)}</p><button style="background:var(--c1);color:#fff;border:none;border-radius:10px;padding:10px 20px;cursor:pointer;font-size:14px;font-weight:600" onclick="currentDay=new Date('${dk}T12:00:00');showSection('daily',null)">📝 Bugünü Kaydet</button></div></div>`;
   }
+  if(dayMovies.length){html+=`<div class="card"><div class="card-title" style="color:var(--c2)">🎬 Bu gün izlenenler</div>${dayMovies.map(m=>`<div style="padding:6px 0;border-bottom:0.5px solid var(--brd);font-size:13px">${m.type==='Film'?'🎥':'📺'} ${m.name}${m.score?' · '+'⭐'.repeat(m.score):''}</div>`).join('')}</div>`;}
+  if(dayHobbies.length){html+=`<div class="card"><div class="card-title" style="color:var(--c3)">🎨 Bu gün hobiler</div>${dayHobbies.map(h=>`<div style="padding:6px 0;border-bottom:0.5px solid var(--brd);font-size:13px">🎨 ${h.name}${h.dur?' · '+h.dur:''}</div>`).join('')}</div>`;}
+  if(dayMekanlar.length){html+=`<div class="card"><div class="card-title" style="color:var(--c4)">📍 Bu gün gidilen mekanlar</div>${dayMekanlar.map(m=>`<div style="padding:6px 0;border-bottom:0.5px solid var(--brd);font-size:13px">📍 ${m.name}${m.score?' · '+'⭐'.repeat(m.score):''}</div>`).join('')}</div>`;}
   if(dayPlans.length){
-    html+=`<div class="card"><div class="card-title">🗺️ Bu güne ait planlar</div>`;
-    dayPlans.forEach(p=>{html+=`<div style="padding:8px 0;border-bottom:0.5px solid var(--brd);display:flex;align-items:center;gap:8px"><span class="tag ${CAT_COLORS[p.cat]||'am'}" style="font-size:11px">${p.cat}</span><span style="font-size:14px;font-weight:600;${p.done?'text-decoration:line-through;opacity:0.5':''}">${p.text}</span></div>`;});
-    html+=`<button style="width:100%;margin-top:10px;padding:9px;background:var(--bg2);border:0.5px solid var(--brd2);border-radius:10px;cursor:pointer;font-size:13px;color:var(--txt1);font-weight:600" onclick="showSection('plans',document.querySelector('.nav-btn:nth-child(6)'))">🗺️ Gezi/Plan sayfasına git</button></div>`;
+    html+=`<div class="card"><div class="card-title" style="color:var(--c6)">🗺️ Bu güne ait planlar</div>`;
+    dayPlans.forEach(p=>{html+=`<div style="padding:6px 0;border-bottom:0.5px solid var(--brd);display:flex;align-items:center;gap:8px"><span class="tag ${CAT_COLORS[p.cat]||'am'}" style="font-size:10px">${p.cat}</span><span style="font-size:13px;${p.done?'text-decoration:line-through;opacity:.5':''}">${p.text}</span></div>`;});
+    html+=`</div>`;
   }
-  cont.innerHTML=html;
+  cont.innerHTML=html||`<div class="card"><div class="empty" style="padding:16px">Bu güne ait kayıt yok.</div></div>`;
 }
 
-// Plans
+/* GEZİ/PLAN */
 function switchPlansTab(tab){
   activePlansTab=tab;
   document.querySelectorAll('.plans-tab').forEach((t,i)=>t.classList.toggle('active',['planlar','mekanlar'][i]===tab));
@@ -880,26 +944,18 @@ function switchPlansTab(tab){
 }
 function openPlansFab(){
   if(activePlansTab==='planlar'){
-    document.getElementById('planModalTitle').textContent='🗺️ Plan Ekle';
-    document.getElementById('planEditId').value='';
+    document.getElementById('planModalTitle').textContent='🗺️ Plan Ekle';document.getElementById('planEditId').value='';
     document.getElementById('planText').value='';document.getElementById('planDate').value='';document.getElementById('planNote').value='';document.getElementById('planOtherText').value='';
-    document.getElementById('planOtherField').style.display='none';
-    selectedPlanCat='Kişisel';document.querySelectorAll('#planCatRow .toggle-btn').forEach((b,i)=>b.classList.toggle('on',i===0));
+    document.getElementById('planOtherField').style.display='none';selectedPlanCat='Kişisel';
+    document.querySelectorAll('#planCatRow .toggle-btn').forEach((b,i)=>b.classList.toggle('on',i===0));
     document.getElementById('modal-plan').classList.add('open');
   } else {
-    document.getElementById('mekanModalTitle').textContent='📍 Mekan Ekle';
-    document.getElementById('mekanEditId').value='';
+    document.getElementById('mekanModalTitle').textContent='📍 Mekan Ekle';document.getElementById('mekanEditId').value='';
     document.getElementById('mekanName').value='';document.getElementById('mekanNote').value='';document.getElementById('mekanLink').value='';
     mekanScore=0;renderStars('mekanStars',0,s=>{mekanScore=s;renderStars('mekanStars',s,arguments.callee)});
-    document.querySelectorAll('#mekanCatRow .toggle-btn').forEach((b,i)=>b.classList.toggle('on',i===0));
-    selectedMekanCat='Yemek';clearPhotoPreview('mekan');photos.mekan=null;
-    document.getElementById('modal-mekan').classList.add('open');
+    document.querySelectorAll('#mekanCatRow .toggle-btn').forEach((b,i)=>b.classList.toggle('on',i===0));selectedMekanCat='Yemek';
+    clearPhotoPreview('mekan');photos.mekan=null;document.getElementById('modal-mekan').classList.add('open');
   }
-}
-function selectPlanCat(el){
-  document.querySelectorAll('#planCatRow .toggle-btn').forEach(b=>b.classList.remove('on'));el.classList.add('on');
-  const txt=el.textContent.replace(/[🏠✈️🎵🎭🎬🤝📅💼🌀]/g,'').trim();
-  selectedPlanCat=txt;document.getElementById('planOtherField').style.display=txt==='Diğer'?'block':'none';
 }
 function savePlan(){
   const text=document.getElementById('planText').value.trim();if(!text)return;
@@ -907,36 +963,29 @@ function savePlan(){
   const editId=parseInt(document.getElementById('planEditId').value)||null;
   const item={id:editId||Date.now(),text,date:document.getElementById('planDate').value,cat,note:document.getElementById('planNote').value,done:false};
   const ex=DB.get('plans')||[];
-  if(editId){const i=ex.findIndex(p=>p.id===editId);if(i>-1){item.done=ex[i].done;ex[i]=item;}else ex.unshift(item);}
-  else ex.unshift(item);
+  if(editId){const i=ex.findIndex(p=>p.id===editId);if(i>-1){item.done=ex[i].done;ex[i]=item;}else ex.unshift(item);}else ex.unshift(item);
   DB.set('plans',ex);closeModal('plan');renderPlans();renderHome();
 }
 function editPlan(id){
   const plans=DB.get('plans')||[];const p=plans.find(x=>x.id===id);if(!p)return;
-  document.getElementById('planModalTitle').textContent='✏️ Plan Düzenle';
-  document.getElementById('planEditId').value=id;
+  document.getElementById('planModalTitle').textContent='✏️ Plan Düzenle';document.getElementById('planEditId').value=id;
   document.getElementById('planText').value=p.text;document.getElementById('planDate').value=p.date||'';document.getElementById('planNote').value=p.note||'';
-  selectedPlanCat=p.cat;
-  document.querySelectorAll('#planCatRow .toggle-btn').forEach(b=>{const txt=b.textContent.replace(/[🏠✈️🎵🎭🎬🤝📅💼🌀]/g,'').trim();b.classList.toggle('on',txt===p.cat);});
+  selectedPlanCat=p.cat;document.querySelectorAll('#planCatRow .toggle-btn').forEach(b=>b.classList.toggle('on',b.textContent.replace(/[🏠✈️🎵🎭🎬🤝📅💼🌀]/g,'').trim()===p.cat));
   document.getElementById('planOtherField').style.display=p.cat==='Diğer'?'block':'none';
-  document.getElementById('planOtherText').value='';
   document.getElementById('modal-plan').classList.add('open');
 }
+function togglePlan(id){const plans=DB.get('plans')||[];const i=plans.findIndex(p=>p.id===id);if(i>-1){plans[i].done=!plans[i].done;DB.set('plans',plans);renderPlans();renderHome();}}
 function renderPlans(){
   const plans=DB.get('plans')||[];const cont=document.getElementById('plansContent');
   if(!plans.length){cont.innerHTML='<div class="empty">🗺️ Henüz plan yok.</div>';return;}
   cont.innerHTML='';
   plans.forEach(p=>{
     const wrap=document.createElement('div');wrap.className='swipe-wrap';
-    wrap.innerHTML=`
-      <div class="swipe-actions">
-        <div class="swipe-action-edit">✏️</div>
-        <div class="swipe-action-delete">🗑️</div>
-      </div>
+    wrap.innerHTML=`<div class="swipe-actions"><div class="swipe-action-edit">✏️</div><div class="swipe-action-delete">🗑️</div></div>
       <div class="list-item">
         <button class="check-btn${p.done?' done':''}" onclick="togglePlan(${p.id})">${p.done?'✅':'○'}</button>
         <div class="list-item-body">
-          <div class="list-item-title" style="${p.done?'text-decoration:line-through;opacity:0.5':''}">${p.text}</div>
+          <div class="list-item-title" style="${p.done?'text-decoration:line-through;opacity:.5':''}">${p.text}</div>
           <div style="display:flex;gap:6px;margin-top:5px;align-items:center;flex-wrap:wrap">
             <span class="tag ${CAT_COLORS[p.cat]||'am'}" style="font-size:11px">${p.cat}</span>
             ${p.date?`<span style="font-size:11px;color:var(--txt2)">📅 ${p.date.split('-').reverse().slice(0,2).join('.')}</span>`:''}
@@ -948,71 +997,58 @@ function renderPlans(){
     cont.appendChild(wrap);
   });
 }
-function togglePlan(id){const plans=DB.get('plans')||[];const i=plans.findIndex(p=>p.id===id);if(i>-1){plans[i].done=!plans[i].done;DB.set('plans',plans);renderPlans();renderHome();}}
 
-// Mekanlar
+/* MEKANLAR */
 function saveMekan(){
   const name=document.getElementById('mekanName').value.trim();if(!name)return;
   const editId=parseInt(document.getElementById('mekanEditId').value)||null;
-  const item={id:editId||Date.now(),name,cat:selectedMekanCat,score:mekanScore,note:document.getElementById('mekanNote').value,link:document.getElementById('mekanLink').value,photo:photos.mekan||null,visited:false,visitedDate:'',visitedNote:'',visitedPhoto:null};
+  const base={id:editId||Date.now(),name,cat:selectedMekanCat,score:mekanScore,note:document.getElementById('mekanNote').value,link:document.getElementById('mekanLink').value,photo:photos.mekan||null,visited:false,visitedDate:'',visitedNote:'',visitedPhoto:null};
   const ex=DB.get('mekanlar')||[];
-  if(editId){const i=ex.findIndex(m=>m.id===editId);if(i>-1){if(!photos.mekan)item.photo=ex[i].photo;item.visited=ex[i].visited;item.visitedDate=ex[i].visitedDate;item.visitedNote=ex[i].visitedNote;item.visitedPhoto=ex[i].visitedPhoto;ex[i]=item;}else ex.unshift(item);}
-  else ex.unshift(item);
+  if(editId){const i=ex.findIndex(m=>m.id===editId);if(i>-1){if(!photos.mekan)base.photo=ex[i].photo;base.visited=ex[i].visited;base.visitedDate=ex[i].visitedDate;base.visitedNote=ex[i].visitedNote;base.visitedPhoto=ex[i].visitedPhoto;ex[i]=base;}else ex.unshift(base);}else ex.unshift(base);
   DB.set('mekanlar',ex);closeModal('mekan');renderMekanlar();
 }
 function editMekan(id){
-  const mekanlar=DB.get('mekanlar')||[];const m=mekanlar.find(x=>x.id===id);if(!m)return;
-  document.getElementById('mekanModalTitle').textContent='✏️ Mekan Düzenle';
-  document.getElementById('mekanEditId').value=id;
-  document.getElementById('mekanName').value=m.name;
-  document.getElementById('mekanNote').value=m.note||'';
-  document.getElementById('mekanLink').value=m.link||'';
-  selectedMekanCat=m.cat;
-  document.querySelectorAll('#mekanCatRow .toggle-btn').forEach(b=>{const txt=b.textContent.replace(/[🍽️☕🎭🌿🛍️🌀]/g,'').trim();b.classList.toggle('on',txt===m.cat);});
+  const m=(DB.get('mekanlar')||[]).find(x=>x.id===id);if(!m)return;
+  document.getElementById('mekanModalTitle').textContent='✏️ Mekan Düzenle';document.getElementById('mekanEditId').value=id;
+  document.getElementById('mekanName').value=m.name;document.getElementById('mekanNote').value=m.note||'';document.getElementById('mekanLink').value=m.link||'';
+  selectedMekanCat=m.cat;document.querySelectorAll('#mekanCatRow .toggle-btn').forEach(b=>b.classList.toggle('on',b.textContent.replace(/[🍽️☕🎭🌿🛍️🌀]/g,'').trim()===m.cat));
   mekanScore=m.score||0;renderStars('mekanStars',mekanScore,s=>{mekanScore=s;renderStars('mekanStars',s,arguments.callee)});
   if(m.photo){showPhotoPreview('mekan',m.photo);photos.mekan=m.photo;}else{clearPhotoPreview('mekan');photos.mekan=null;}
   document.getElementById('modal-mekan').classList.add('open');
 }
-let mekanVisitedScoreVal=0;
 function openMekanVisited(id){
-  document.getElementById('mekanVisitedId').value=id;
-  document.getElementById('mekanVisitedDate').value=today();
-  document.getElementById('mekanVisitedNote').value='';
+  document.getElementById('mekanVisitedId').value=id;document.getElementById('mekanVisitedDate').value=today();document.getElementById('mekanVisitedNote').value='';
   mekanVisitedScoreVal=0;renderStars('mekanVisitedStars',0,s=>{mekanVisitedScoreVal=s;renderStars('mekanVisitedStars',s,arguments.callee)});
-  clearPhotoPreview('mekanVisited');photos.mekanVisited=null;
-  document.getElementById('modal-mekan-visited').classList.add('open');
+  clearPhotoPreview('mekanVisited');photos.mekanVisited=null;document.getElementById('modal-mekan-visited').classList.add('open');
 }
 function confirmMekanVisited(){
-  const id=parseInt(document.getElementById('mekanVisitedId').value);
-  const mekanlar=DB.get('mekanlar')||[];const i=mekanlar.findIndex(m=>m.id===id);
+  const id=parseInt(document.getElementById('mekanVisitedId').value);const mekanlar=DB.get('mekanlar')||[];const i=mekanlar.findIndex(m=>m.id===id);
   if(i>-1){mekanlar[i].visited=true;mekanlar[i].score=mekanVisitedScoreVal;mekanlar[i].visitedDate=document.getElementById('mekanVisitedDate').value||today();mekanlar[i].visitedNote=document.getElementById('mekanVisitedNote').value;if(photos.mekanVisited)mekanlar[i].visitedPhoto=photos.mekanVisited;DB.set('mekanlar',mekanlar);}
   closeModal('mekan-visited');renderMekanlar();
 }
 function renderMekanlar(){
   const mekanlar=DB.get('mekanlar')||[];const cont=document.getElementById('mekanlarContent');
-  if(!mekanlar.length){cont.innerHTML='<div class="empty">📍 Henüz mekan eklenmedi.<br>+ butonuna bas!</div>';return;}
+  if(!mekanlar.length){cont.innerHTML='<div class="empty">📍 Henüz mekan eklenmedi.</div>';return;}
   cont.innerHTML='';
   const gidilecek=mekanlar.filter(m=>!m.visited);
   const gidilen=mekanlar.filter(m=>m.visited);
   if(gidilecek.length){
-    const h=document.createElement('div');h.style.cssText='font-size:12px;font-weight:600;color:var(--txt2);text-transform:uppercase;letter-spacing:.6px;margin-bottom:8px;margin-top:4px';h.textContent='Gidilecekler';cont.appendChild(h);
-    gidilecek.forEach(m=>renderMekanCard(m,cont));
+    const lbl=document.createElement('div');lbl.className='mekan-section-label gidilecek';lbl.textContent='🗂️ Gidilecekler';cont.appendChild(lbl);
+    gidilecek.forEach(m=>appendMekanCard(m,cont,false));
   }
   if(gidilen.length){
-    const h=document.createElement('div');h.style.cssText='font-size:12px;font-weight:600;color:var(--txt2);text-transform:uppercase;letter-spacing:.6px;margin-bottom:8px;margin-top:12px';h.textContent='Gidilenler ✅';cont.appendChild(h);
-    gidilen.forEach(m=>renderMekanCard(m,cont));
+    const lbl=document.createElement('div');lbl.className='mekan-section-label gidilen';lbl.textContent='✅ Gidilenler';cont.appendChild(lbl);
+    gidilen.forEach(m=>appendMekanCard(m,cont,true));
   }
 }
-function renderMekanCard(m,cont){
+function appendMekanCard(m,cont,visited){
   const wrap=document.createElement('div');wrap.className='swipe-wrap';
   const photo=m.visitedPhoto||m.photo;
   const scoreStr=m.score?'⭐'.repeat(m.score):'';
+  const cls=visited?'gidilen':'gidilecek';
   wrap.innerHTML=`
-    <div class="swipe-actions">
-      <div class="swipe-action-edit">✏️</div>
-      <div class="swipe-action-delete">🗑️</div>
-    </div>
-    <div class="mekan-card" style="margin-bottom:0;border-radius:14px">
+    <div class="swipe-actions"><div class="swipe-action-edit">✏️</div><div class="swipe-action-delete">🗑️</div></div>
+    <div class="mekan-card ${cls}" style="margin-bottom:0;border-radius:14px">
       ${photo?`<img src="${photo}" class="mekan-img">`:`<div class="mekan-img-ph">📍</div>`}
       <div class="mekan-body">
         <div class="mekan-name">${m.name}</div>
@@ -1024,30 +1060,61 @@ function renderMekanCard(m,cont){
         </div>
         ${m.note?`<p style="font-size:12px;color:var(--txt2);margin-top:4px">${m.note}</p>`:''}
         ${m.visitedNote?`<p style="font-size:12px;color:var(--txt2);margin-top:4px;font-style:italic">"${m.visitedNote}"</p>`:''}
-        ${!m.visited?`<button style="margin-top:8px;background:var(--c4l);border:none;border-radius:8px;padding:6px 12px;cursor:pointer;font-size:13px;color:var(--c4);font-weight:600" onclick="openMekanVisited(${m.id})">✅ Gittim!</button>`:''}
+        ${!visited?`<button style="margin-top:8px;background:${visited?'var(--c4l)':'rgba(16,185,129,0.15)'};border:none;border-radius:8px;padding:6px 12px;cursor:pointer;font-size:13px;color:var(--c4);font-weight:600" onclick="openMekanVisited(${m.id})">✅ Gittim!</button>`:''}
       </div>
     </div>`;
   makeSwipeable(wrap,()=>editMekan(m.id),()=>{const items=DB.get('mekanlar')||[];DB.set('mekanlar',items.filter(i=>i.id!==m.id));renderMekanlar();});
   cont.appendChild(wrap);
 }
 
-// Stats
+/* İSTATİSTİKLER */
 function calcStats(){
   const keys=DB.keys('day:');let total=0,scoreSum=0;
   const acts={spor:0,konser:0,tiyatro:0,sinema:0,bulusma:0,gezi:0};const recent=[];
-  keys.forEach(k=>{const d=DB.get(k);if(!d)return;total++;scoreSum+=d.score||0;(d.activities||[]).forEach(a=>{if(acts[a]!==undefined)acts[a]++;});recent.push(d);});
-  recent.sort((a,b)=>b.date.localeCompare(a.date));
+  const firsts=[],memories=[];
+  keys.forEach(k=>{const d=DB.get(k);if(!d)return;total++;scoreSum+=d.score||0;(d.activities||[]).forEach(a=>{if(acts[a]!==undefined)acts[a]++;});if(d.first&&d.first.trim())firsts.push({text:d.first,date:d.date});if(d.memory&&d.memory.trim())memories.push({text:d.memory,date:d.date});recent.push(d);});
+  recent.sort((a,b)=>b.date.localeCompare(a.date));firsts.sort((a,b)=>b.date.localeCompare(a.date));memories.sort((a,b)=>b.date.localeCompare(a.date));
   const avg=total?Math.round(scoreSum/total*10)/10:0;
   const movies=DB.get('movies')||[];
   const filmCount=movies.filter(m=>m.status==='izledim'&&m.type==='Film').length;
   const diziCount=movies.filter(m=>m.status==='izledim'&&m.type==='Dizi').length;
-  return{total,avg,acts,filmCount,diziCount,recent};
+  const filmList=movies.filter(m=>m.status==='izledim'&&m.type==='Film');
+  const diziList=movies.filter(m=>m.status==='izledim'&&m.type==='Dizi');
+  return{total,avg,acts,filmCount,diziCount,filmList,diziList,firsts,memories,recent};
 }
+
+let statsOpenSections={};
+function toggleStatsSection(id){statsOpenSections[id]=!statsOpenSections[id];const el=document.getElementById('stats-list-'+id);if(el)el.classList.toggle('open',statsOpenSections[id]);}
+
 function renderStatsModal(){
   const s=calcStats();
-  const items=[{num:s.total,label:'Kayıtlı gün'},{num:s.avg||'—',label:'Ort. puan'},{num:s.acts.spor,label:'💪 Spor'},{num:s.acts.konser,label:'🎵 Konser'},{num:s.acts.tiyatro,label:'🎭 Tiyatro'},{num:s.acts.sinema,label:'🎬 Sinema'},{num:s.acts.bulusma,label:'🤝 Buluşma'},{num:s.acts.gezi,label:'✈️ Gezi'},{num:s.filmCount,label:'🎥 Film'},{num:s.diziCount,label:'📺 Dizi'}];
-  document.getElementById('statsModalContent').innerHTML=`<div class="stats-grid-full">${items.map(it=>`<div class="stats-item"><div class="stats-item-num">${it.num}</div><div class="stats-item-label">${it.label}</div></div>`).join('')}</div>`;
+  const topItems=[
+    {num:s.total,label:'Kayıtlı gün'},{num:s.avg||'—',label:'Ort. puan'},
+    {num:s.acts.spor,label:'💪 Spor'},{num:s.acts.konser,label:'🎵 Konser'},
+    {num:s.acts.tiyatro,label:'🎭 Tiyatro'},{num:s.acts.sinema,label:'🎬 Sinema'},
+    {num:s.acts.bulusma,label:'🤝 Buluşma'},{num:s.acts.gezi,label:'✈️ Gezi'},
+  ];
+  const sections=[
+    {id:'film',title:'🎥 İzlenen Filmler',count:s.filmCount,items:s.filmList.map(m=>`${m.name}${m.score?' · '+'⭐'.repeat(m.score):''}${m.date?' · '+fmtShort(m.date):''}`)},
+    {id:'dizi',title:'📺 İzlenen Diziler',count:s.diziCount,items:s.diziList.map(m=>`${m.name}${m.score?' · '+'⭐'.repeat(m.score):''}${m.date?' · '+fmtShort(m.date):''}`)},
+    {id:'firsts',title:'✨ İlklerim',count:s.firsts.length,items:s.firsts.map(f=>`${f.text} <span style="font-size:11px;color:var(--txt3)">(${fmtShort(f.date)})</span>`)},
+    {id:'memories',title:'💭 Hatırlamak İstediklerim',count:s.memories.length,items:s.memories.map(m=>`${m.text} <span style="font-size:11px;color:var(--txt3)">(${fmtShort(m.date)})</span>`)},
+  ];
+  document.getElementById('statsModalContent').innerHTML=`
+    <div class="stats-grid-top">${topItems.map(it=>`<div class="stats-item"><div class="stats-item-num">${it.num}</div><div class="stats-item-label">${it.label}</div></div>`).join('')}</div>
+    ${sections.map(sec=>`
+      <div class="stats-section">
+        <div class="stats-section-title" onclick="toggleStatsSection('${sec.id}')">
+          <span>${sec.title}</span>
+          <span class="stats-section-count">${sec.count}</span>
+        </div>
+        <div class="stats-list${statsOpenSections[sec.id]?' open':''}" id="stats-list-${sec.id}">
+          ${sec.items.length?sec.items.map(item=>`<div class="stats-list-item">• ${item}</div>`).join(''):'<div style="padding:8px 0;font-size:13px;color:var(--txt3)">Henüz kayıt yok.</div>'}
+        </div>
+      </div>`).join('')}`;
 }
+
+/* ANA SAYFA */
 function renderHome(){
   const s=calcStats();
   document.getElementById('statsGrid').innerHTML=`
@@ -1058,8 +1125,7 @@ function renderHome(){
   const rl=document.getElementById('recentList');
   if(!s.recent.length){rl.innerHTML='<div class="empty">🌱 Henüz kayıt yok!</div>';return;}
   rl.innerHTML=s.recent.slice(0,4).map(e=>{
-    const d=new Date(e.date+'T12:00:00');
-    const acts=(e.activities||[]).map(a=>`<span class="tag gr" style="font-size:10px">${ACT_LABELS[a]||a}</span>`).join('');
+    const d=new Date(e.date+'T12:00:00');const acts=(e.activities||[]).map(a=>`<span class="tag gr" style="font-size:10px">${ACT_LABELS[a]||a}</span>`).join('');
     return`<div class="entry-card">
       <div class="entry-header"><span class="entry-date">📅 ${d.getDate()} ${SHORT[d.getMonth()]}</span><span class="entry-score">${'⭐'.repeat(Math.min(e.score,5))} ${e.score}/10</span></div>
       ${e.note?`<p style="font-size:13px;color:var(--txt2);margin-top:4px">${e.note.slice(0,80)}${e.note.length>80?'…':''}</p>`:''}
@@ -1073,15 +1139,14 @@ function renderHome(){
   document.getElementById('homePlans').innerHTML=plans.filter(p=>!p.done).slice(0,3).map(p=>`<div style="font-size:13px;padding:5px 0;border-bottom:0.5px solid var(--brd)"><span class="tag ${CAT_COLORS[p.cat]||'am'}" style="font-size:10px;margin-right:4px">${p.cat}</span>${p.text}</div>`).join('')||`<div style="font-size:13px;color:var(--txt2)">Gezi/Plan bölümünden ekle ➜</div>`;
 }
 
-// Import/Export
+/* IMPORT/EXPORT */
 function exportData(){const data={};for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i);data[k]=localStorage.getItem(k);}const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='mucu_ajanda_yedek.json';a.click();}
 function importData(input){const file=input.files[0];if(!file)return;if(!confirm('Mevcut veriler silinecek. Emin misin?'))return;const r=new FileReader();r.onload=e=>{try{const data=JSON.parse(e.target.result);localStorage.clear();Object.keys(data).forEach(k=>localStorage.setItem(k,data[k]));alert('✅ Veriler başarıyla yüklendi!');location.reload();}catch{alert('❌ Dosya okunamadı.');}};r.readAsText(file);}
 
-// PWA
+/* PWA */
 const manifest={name:"Mücü'nün Kişisel Ajandası",short_name:"Mücü Ajanda",start_url:".",display:"standalone",background_color:"#f7f6f3",theme_color:"#7C6FE0",orientation:"portrait",icons:[{src:"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%237C6FE0'/%3E%3Ctext y='.9em' font-size='72' x='12'%3E🌸%3C/text%3E%3C/svg%3E",sizes:"192x192",type:"image/svg+xml"}]};
-const mblob=new Blob([JSON.stringify(manifest)],{type:'application/json'});
-document.getElementById('pwa-manifest').href=URL.createObjectURL(mblob);
-if('serviceWorker' in navigator){const swCode=`const CACHE='mucu-v3';self.addEventListener('install',e=>{e.waitUntil(caches.open(CACHE).then(c=>c.addAll(['/'])));self.skipWaiting();});self.addEventListener('fetch',e=>{e.respondWith(caches.match(e.request).then(r=>r||fetch(e.request).catch(()=>caches.match('/'))));});`;const swBlob=new Blob([swCode],{type:'application/javascript'});navigator.serviceWorker.register(URL.createObjectURL(swBlob)).catch(()=>{});}
+const mblob=new Blob([JSON.stringify(manifest)],{type:'application/json'});document.getElementById('pwa-manifest').href=URL.createObjectURL(mblob);
+if('serviceWorker' in navigator){const swCode=`const CACHE='mucu-v4';self.addEventListener('install',e=>{e.waitUntil(caches.open(CACHE).then(c=>c.addAll(['/'])));self.skipWaiting();});self.addEventListener('fetch',e=>{e.respondWith(caches.match(e.request).then(r=>r||fetch(e.request).catch(()=>caches.match('/'))));});`;const swBlob=new Blob([swCode],{type:'application/javascript'});navigator.serviceWorker.register(URL.createObjectURL(swBlob)).catch(()=>{});}
 
 renderHome();renderDaily();
 </script>
