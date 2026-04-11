@@ -8,7 +8,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="Mücü Ajanda">
 <meta name="theme-color" content="#7C6FE0">
-<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%237C6FE0'/%3E%3Ctext y='.9em' font-size='72' x='12'%3E🌸%3C/text%3E%3C/svg%3E">
+<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%237C6FE0'/%3E%3Ctext x='50' y='54' font-size='62' text-anchor='middle' dominant-baseline='middle'%3E🌸%3C/text%3E%3C/svg%3E">
 <link rel="manifest" id="pwa-manifest">
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
@@ -337,6 +337,9 @@ body{font-family:var(--font);background:var(--bg1);color:var(--txt1);min-height:
         <button class="toggle-btn" onclick="toggleActivity(this,'sinema')">🎬 Sinema</button>
         <button class="toggle-btn" onclick="toggleActivity(this,'bulusma')">🤝 Buluşma</button>
         <button class="toggle-btn" onclick="toggleActivity(this,'gezi')">✈️ Gezi</button>
+        <button class="toggle-btn" onclick="toggleActivity(this,'randevu')">📅 Randevu</button>
+        <button class="toggle-btn" onclick="toggleActivity(this,'kariyer')">💼 Kariyer</button>
+        <button class="toggle-btn" onclick="toggleActivity(this,'kisisel')">🏠 Kişisel</button>
       </div>
     </div>
     <div class="field" id="geziNoteField" style="display:none"><label>✈️ Gezi notu</label><input id="geziNote" placeholder="Nereye gittin?"></div>
@@ -433,6 +436,19 @@ body{font-family:var(--font);background:var(--bg1);color:var(--txt1);min-height:
   </div>
 </div>
 
+
+<!-- MODAL: FİLM DETAY -->
+<div class="modal-overlay" id="modal-film-detail">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <div class="modal-title"><span id="filmDetailTitle">Film Detayı</span><button class="close-btn" onclick="closeModal('film-detail')">✕</button></div>
+    <div id="filmDetailContent"></div>
+    <div style="display:flex;gap:8px;margin-top:12px">
+      <button class="save-btn" id="filmDetailEditBtn" style="background:var(--bg2);color:var(--txt1);border:0.5px solid var(--brd2)">✏️ Düzenle</button>
+      <button class="save-btn" id="filmDetailMoveBtn" style="background:var(--c3l);color:var(--c3);border:0.5px solid var(--c3);display:none">↩️ İzleyeceklerime Al</button>
+    </div>
+  </div>
+</div>
 <!-- MODAL: HOBİ -->
 <div class="modal-overlay" id="modal-hobby">
   <div class="modal">
@@ -522,6 +538,21 @@ body{font-family:var(--font);background:var(--bg1);color:var(--txt1);min-height:
   </div>
 </div>
 
+
+<!-- MODAL: PLAN TAMAMLANDI -->
+<div class="modal-overlay" id="modal-plan-completed">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <div class="modal-title">🎉 Plan tamamlandı!<button class="close-btn" onclick="closePlanCompleted()">✕</button></div>
+    <input type="hidden" id="planCompletedId">
+    <p style="font-size:14px;color:var(--txt2);margin-bottom:16px;line-height:1.6">Bu planı günlüğe eklemek ister misin? Puanlama ve notlarını girebilirsin.</p>
+    <div id="planCompletedInfo" style="padding:10px 12px;background:var(--bg2);border-radius:10px;margin-bottom:16px;font-size:14px;font-weight:600;color:var(--txt1)"></div>
+    <div style="display:flex;gap:8px">
+      <button class="save-btn" onclick="goToPlanDay()" style="background:var(--c1)">📓 Günlüğe Git</button>
+      <button class="save-btn" onclick="closePlanCompleted()" style="background:var(--bg2);color:var(--txt1);border:0.5px solid var(--brd2)">Geç</button>
+    </div>
+  </div>
+</div>
 <!-- MODAL: İSTATİSTİKLER -->
 <div class="modal-overlay" id="modal-stats">
   <div class="modal">
@@ -553,7 +584,7 @@ const SHORT=['Oca','Şub','Mar','Nis','May','Haz','Tem','Ağu','Eyl','Eki','Kas'
 const WDAYS=['Paz','Pzt','Sal','Çar','Per','Cum','Cmt'];
 const DAYS=['Pazar','Pazartesi','Salı','Çarşamba','Perşembe','Cuma','Cumartesi'];
 const CAT_COLORS={'Kişisel':'pu','Seyahat':'bl','Konser':'pk','Tiyatro':'pu','Sinema':'or','Buluşma':'gr','Randevu':'bl','Kariyer':'or','Diğer':'am'};
-const ACT_LABELS={spor:'💪 Spor',konser:'🎵 Konser',tiyatro:'🎭 Tiyatro',sinema:'🎬 Sinema',bulusma:'🤝 Buluşma',gezi:'✈️ Gezi'};
+const ACT_LABELS={spor:'💪 Spor',konser:'🎵 Konser',tiyatro:'🎭 Tiyatro',sinema:'🎬 Sinema',bulusma:'🤝 Buluşma',gezi:'✈️ Gezi',randevu:'📅 Randevu',kariyer:'💼 Kariyer',kisisel:'🏠 Kişisel'};
 const MEKAN_CAT_COLORS={'Yemek':'or','Kafe':'am','Kültür':'pu','Doğa':'gr','Alışveriş':'pk','Diğer':'bl'};
 
 function fmtDate(d){return`${DAYS[d.getDay()]}, ${d.getDate()} ${MONTHS[d.getMonth()]} ${d.getFullYear()}`}
@@ -813,6 +844,38 @@ function confirmMoveToWatched(){
   if(i>-1){movies[i].status='izledim';movies[i].score=moveWatchedScoreVal;movies[i].note=document.getElementById('moveWatchedNote').value;movies[i].date=document.getElementById('moveWatchedDate').value||today();if(photos.moveWatched)movies[i].photo=photos.moveWatched;DB.set('movies',movies);}
   closeModal('move-to-watched');activeMovieTab='izledim';document.querySelectorAll('#sec-movies .tab').forEach((t,i)=>t.classList.toggle('active',i===0));renderMovies();renderHome();
 }
+function openFilmDetail(id){
+  const movies=DB.get('movies')||[];const m=movies.find(x=>x.id===id);if(!m)return;
+  document.getElementById('filmDetailTitle').textContent=m.name;
+  const scoreStr=m.score?'⭐'.repeat(m.score):'—';
+  document.getElementById('filmDetailContent').innerHTML=`
+    ${m.photo?`<img src="${m.photo}" style="width:100%;border-radius:12px;max-height:260px;object-fit:cover;margin-bottom:12px">`:''}
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px">
+      <span class="tag pk">${m.type==='Film'?'🎥 Film':'📺 Dizi'}</span>
+      ${m.date?`<span class="tag bl">📅 ${fmtShort(m.date)}</span>`:''}
+      ${m.score?`<span class="tag am">⭐ ${scoreStr}</span>`:''}
+      <span class="tag ${m.status==='izledim'?'gr':'or'}">${m.status==='izledim'?'✅ İzlendi':'🔖 İzlenecek'}</span>
+    </div>
+    ${m.note?`<p style="font-size:14px;color:var(--txt1);line-height:1.65">${m.note}</p>`:''}
+  `;
+  document.getElementById('filmDetailEditBtn').onclick=()=>{closeModal('film-detail');editMovie(id);};
+  const moveBtn=document.getElementById('filmDetailMoveBtn');
+  if(m.status==='izledim'){
+    moveBtn.style.display='block';
+    moveBtn.onclick=()=>{
+      if(confirm('Bu filmi izleyeceklerime geri almak istediğine emin misin?')){
+        const movies2=DB.get('movies')||[];const i=movies2.findIndex(x=>x.id===id);
+        if(i>-1){movies2[i].status='izleyecek';movies2[i].score=0;movies2[i].date='';DB.set('movies',movies2);}
+        closeModal('film-detail');activeMovieTab='izleyecek';
+        document.querySelectorAll('#sec-movies .tab').forEach((t,i)=>t.classList.toggle('active',i===1));
+        renderMovies();renderHome();
+      }
+    };
+  } else {
+    moveBtn.style.display='none';
+  }
+  document.getElementById('modal-film-detail').classList.add('open');
+}
 function renderMovies(){
   const movies=DB.get('movies')||[];const filtered=movies.filter(m=>m.status===activeMovieTab);
   const cont=document.getElementById('moviesContent');
@@ -822,7 +885,7 @@ function renderMovies(){
     const wrap=document.createElement('div');wrap.className='swipe-wrap';
     wrap.innerHTML=`
       <div class="swipe-actions"><div class="swipe-action-edit">✏️</div><div class="swipe-action-delete">🗑️</div></div>
-      <div class="list-item">
+      <div class="list-item" onclick="openFilmDetail(${m.id})" style="cursor:pointer">
         ${m.photo?`<img src="${m.photo}" class="list-item-photo">`:`<div style="width:52px;height:52px;border-radius:10px;background:var(--c2l);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0">${m.type==='Film'?'🎥':'📺'}</div>`}
         <div class="list-item-body">
           <div class="list-item-title">${m.name}</div>
@@ -833,9 +896,9 @@ function renderMovies(){
           </div>
           ${m.note?`<div style="font-size:12px;color:var(--txt2);margin-top:2px">${m.note}</div>`:''}
         </div>
-        ${activeMovieTab==='izleyecek'?`<button style="background:var(--c4l);border:none;border-radius:8px;padding:6px 10px;cursor:pointer;font-size:18px" onclick="openMoveToWatched(${m.id})">✅</button>`:''}
+        ${activeMovieTab==='izleyecek'?`<button style="background:var(--c4l);border:none;border-radius:8px;padding:6px 10px;cursor:pointer;font-size:18px" onclick="event.stopPropagation();openMoveToWatched(${m.id})">✅</button>`:''}
       </div>`;
-    makeSwipeable(wrap,()=>editMovie(m.id),()=>{const items=DB.get('movies')||[];DB.set('movies',items.filter(i=>i.id!==m.id));renderMovies();renderHome();});
+    makeSwipeable(wrap,()=>{event&&event.stopPropagation&&event.stopPropagation();editMovie(m.id);},()=>{const items=DB.get('movies')||[];DB.set('movies',items.filter(i=>i.id!==m.id));renderMovies();renderHome();});
     cont.appendChild(wrap);
   });
 }
@@ -976,7 +1039,46 @@ function editPlan(id){
   document.getElementById('planOtherField').style.display=p.cat==='Diğer'?'block':'none';
   document.getElementById('modal-plan').classList.add('open');
 }
-function togglePlan(id){const plans=DB.get('plans')||[];const i=plans.findIndex(p=>p.id===id);if(i>-1){plans[i].done=!plans[i].done;DB.set('plans',plans);renderPlans();renderHome();}}
+function togglePlan(id){
+  const plans=DB.get('plans')||[];const i=plans.findIndex(p=>p.id===id);
+  if(i<0)return;
+  const wasDone=plans[i].done;
+  plans[i].done=!plans[i].done;
+  DB.set('plans',plans);renderPlans();renderHome();
+  // If just completed and has a date, offer to add to daily
+  if(!wasDone&&plans[i].date){
+    const p=plans[i];
+    document.getElementById('planCompletedId').value=id;
+    document.getElementById('planCompletedInfo').innerHTML=`<span class="tag ${CAT_COLORS[p.cat]||'am'}" style="font-size:12px">${p.cat}</span> <span style="margin-left:6px">${p.text}</span><br><span style="font-size:12px;color:var(--txt2);margin-top:4px;display:block">📅 ${p.date.split('-').reverse().slice(0,2).join('.')}</span>`;
+    document.getElementById('modal-plan-completed').classList.add('open');
+  }
+}
+let planCompletedDk='';
+function goToPlanDay(){
+  const id=parseInt(document.getElementById('planCompletedId').value);
+  const plans=DB.get('plans')||[];const p=plans.find(x=>x.id===id);
+  if(!p)return;
+  closePlanCompleted();
+  // pre-select activity based on category
+  const catToAct={Konser:'konser',Tiyatro:'tiyatro',Sinema:'sinema',Buluşma:'bulusma',Seyahat:'gezi',Randevu:'randevu',Kariyer:'kariyer',Kişisel:'kisisel'};
+  const act=catToAct[p.cat]||null;
+  currentDay=new Date(p.date+'T12:00:00');
+  // load existing entry or create fresh
+  const dk=dkey(currentDay);
+  if(!dayCache[dk]){const s=DB.get('day:'+dk);if(s)dayCache[dk]=s;}
+  // open modal with pre-selected activity
+  openDayModal(null);
+  if(act){
+    selectedActivities.add(act);
+    setTimeout(()=>{
+      document.querySelectorAll('#activityRow .toggle-btn').forEach(b=>{
+        const m=b.getAttribute('onclick').match(/'([^']+)'/);
+        if(m)b.classList.toggle('on',selectedActivities.has(m[1]));
+      });
+    },100);
+  }
+}
+function closePlanCompleted(){document.getElementById('modal-plan-completed').classList.remove('open');}
 function renderPlans(){
   const plans=DB.get('plans')||[];const cont=document.getElementById('plansContent');
   if(!plans.length){cont.innerHTML='<div class="empty">🗺️ Henüz plan yok.</div>';return;}
@@ -1146,9 +1248,9 @@ function exportData(){const data={};for(let i=0;i<localStorage.length;i++){const
 function importData(input){const file=input.files[0];if(!file)return;if(!confirm('Mevcut veriler silinecek. Emin misin?'))return;const r=new FileReader();r.onload=e=>{try{const data=JSON.parse(e.target.result);localStorage.clear();Object.keys(data).forEach(k=>localStorage.setItem(k,data[k]));alert('✅ Veriler başarıyla yüklendi!');location.reload();}catch{alert('❌ Dosya okunamadı.');}};r.readAsText(file);}
 
 /* PWA */
-const manifest={name:"Mücü'nün Kişisel Ajandası",short_name:"Mücü Ajanda",start_url:".",display:"standalone",background_color:"#f7f6f3",theme_color:"#7C6FE0",orientation:"portrait",icons:[{src:"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%237C6FE0'/%3E%3Ctext y='.9em' font-size='72' x='12'%3E🌸%3C/text%3E%3C/svg%3E",sizes:"192x192",type:"image/svg+xml"}]};
+const manifest={name:"Mücü'nün Kişisel Ajandası",short_name:"Mücü Ajanda",start_url:".",display:"standalone",background_color:"#f7f6f3",theme_color:"#7C6FE0",orientation:"portrait",icons:[{src:"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%237C6FE0'/%3E%3Ctext x='50' y='54' font-size='62' text-anchor='middle' dominant-baseline='middle'%3E🌸%3C/text%3E%3C/svg%3E",sizes:"192x192",type:"image/svg+xml"}]};
 const mblob=new Blob([JSON.stringify(manifest)],{type:'application/json'});document.getElementById('pwa-manifest').href=URL.createObjectURL(mblob);
-if('serviceWorker' in navigator){const swCode=`const CACHE='mucu-v4';self.addEventListener('install',e=>{e.waitUntil(caches.open(CACHE).then(c=>c.addAll(['/'])));self.skipWaiting();});self.addEventListener('fetch',e=>{e.respondWith(caches.match(e.request).then(r=>r||fetch(e.request).catch(()=>caches.match('/'))));});`;const swBlob=new Blob([swCode],{type:'application/javascript'});navigator.serviceWorker.register(URL.createObjectURL(swBlob)).catch(()=>{});}
+if('serviceWorker' in navigator){const swCode=`const CACHE='mucu-v5';self.addEventListener('install',e=>{e.waitUntil(caches.open(CACHE).then(c=>c.addAll(['/'])));self.skipWaiting();});self.addEventListener('fetch',e=>{e.respondWith(caches.match(e.request).then(r=>r||fetch(e.request).catch(()=>caches.match('/'))));});`;const swBlob=new Blob([swCode],{type:'application/javascript'});navigator.serviceWorker.register(URL.createObjectURL(swBlob)).catch(()=>{});}
 
 renderHome();renderDaily();
 </script>
