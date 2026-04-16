@@ -833,8 +833,8 @@ function saveMovieWatchlist(){
   const tEl=document.querySelector('[onclick*="\'wltype\'"].on');
   const editId=parseInt(document.getElementById('watchlistEditId').value)||null;
   const movies=DB.get('movies')||[];
-  if(editId){const i=movies.findIndex(m=>m.id===editId);if(i>-1)movies[i]={...movies[i],name,type:tEl?tEl.textContent.replace(/[🎥📺]/g,'').trim():'Film',note:document.getElementById('watchlistNote').value,photo:photos.watchlist||movies[i].photo};}
   const wlplatform=document.getElementById('watchlistPlatform').value;
+  if(editId){const i=movies.findIndex(m=>m.id===editId);if(i>-1)movies[i]={...movies[i],name,type:tEl?tEl.textContent.replace(/[🎥📺]/g,'').trim():'Film',note:document.getElementById('watchlistNote').value,platform:wlplatform,photo:photos.watchlist||movies[i].photo};}
   else movies.unshift({id:Date.now(),name,type:tEl?tEl.textContent.replace(/[🎥📺]/g,'').trim():'Film',status:'izleyecek',note:document.getElementById('watchlistNote').value,photo:photos.watchlist||null,date:today(),platform:wlplatform});
   DB.set('movies',movies);closeModal('movie-watchlist');renderMovies();renderHome();
 }
