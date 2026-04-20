@@ -217,8 +217,8 @@ body{font-family:var(--font);background:var(--bg1);color:var(--txt1);min-height:
       <h2 id="heroGreet">Merhaba Mücü! 👋</h2>
       <p>Bugünü kaydetmeye hazır mısın?</p>
     </div>
-    <div class="stat-grid" id="statsGrid" onclick="openModal('stats')"></div>
-    <div class="stat-more" onclick="openModal('stats')">📊 Tüm istatistikleri gör →</div>
+    <div class="stat-grid" id="statsGrid"></div>
+    <div class="stat-more" onclick="openStatsModal()">📊 Tüm istatistikleri gör →</div>
     <div class="card"><div class="card-title">📅 Son Kayıtlar</div><div id="recentList"><div class="empty">Henüz kayıt yok 🌱</div></div></div>
     <div class="card"><div class="card-title">🎬 İzlemek İstediklerim</div><div id="homeWatchlist"><div style="font-size:13px;color:var(--txt2)">Film/Dizi bölümünden ekle ➜</div></div></div>
     <div class="card"><div class="card-title">🗺️ Yaklaşan Planlar</div><div id="homePlans"><div style="font-size:13px;color:var(--txt2)">Gezi/Plan bölümünden ekle ➜</div></div></div>
@@ -340,6 +340,7 @@ body{font-family:var(--font);background:var(--bg1);color:var(--txt1);min-height:
         <button class="toggle-btn" onclick="toggleActivity(this,'randevu')">📅 Randevu</button>
         <button class="toggle-btn" onclick="toggleActivity(this,'kariyer')">💼 Kariyer</button>
         <button class="toggle-btn" onclick="toggleActivity(this,'kisisel')">🏠 Kişisel</button>
+        <button class="toggle-btn" onclick="toggleActivity(this,'temizlik')">🧹 Temizlik</button>
       </div>
     </div>
     <div class="field" id="geziNoteField" style="display:none"><label>✈️ Gezi notu</label><input id="geziNote" placeholder="Nereye gittin?"></div>
@@ -460,6 +461,7 @@ body{font-family:var(--font);background:var(--bg1);color:var(--txt1);min-height:
     <div class="field"><label>🏷️ Hobi adı</label><input id="hobbyName" placeholder="Örn: Resim, gitar, koşu..."></div>
     <div class="field"><label>📝 Ne yaptın?</label><textarea id="hobbyNote" placeholder="Bugün bu hobimde..."></textarea></div>
     <div class="field"><label>⏱️ Süre</label><input id="hobbyDur" placeholder="Örn: 45 dakika..."></div>
+    <div class="field"><label>📅 Tarih</label><input id="hobbyDate" type="date"></div>
     <div class="field"><label>📷 Fotoğraf</label>
       <div class="photo-upload" id="hobbyPhotoArea"><div>📷 Fotoğraf seç</div><input type="file" accept="image/*" onchange="handlePhoto(this,'hobby')"></div>
       <div class="photo-preview-wrap" id="hobbyPhotoWrap" style="display:none"><img id="hobbyPhotoImg"><button class="remove-photo" onclick="removePhoto('hobby')">✕</button></div>
@@ -583,10 +585,10 @@ let dayFirstChecked=false,dayMemoryChecked=false;
 
 const MONTHS=['Ocak','Şubat','Mart','Nisan','Mayıs','Haziran','Temmuz','Ağustos','Eylül','Ekim','Kasım','Aralık'];
 const SHORT=['Oca','Şub','Mar','Nis','May','Haz','Tem','Ağu','Eyl','Eki','Kas','Ara'];
-const WDAYS=['Paz','Pzt','Sal','Çar','Per','Cum','Cmt'];
+const WDAYS=['Pzt','Sal','Çar','Per','Cum','Cmt','Paz'];
 const DAYS=['Pazar','Pazartesi','Salı','Çarşamba','Perşembe','Cuma','Cumartesi'];
 const CAT_COLORS={'Kişisel':'pu','Seyahat':'bl','Konser':'pk','Tiyatro':'pu','Sinema':'or','Buluşma':'gr','Randevu':'bl','Kariyer':'or','Diğer':'am'};
-const ACT_LABELS={spor:'💪 Spor',konser:'🎵 Konser',tiyatro:'🎭 Tiyatro',sinema:'🎬 Sinema',bulusma:'🤝 Buluşma',gezi:'✈️ Gezi',randevu:'📅 Randevu',kariyer:'💼 Kariyer',kisisel:'🏠 Kişisel'};
+const ACT_LABELS={spor:'💪 Spor',konser:'🎵 Konser',tiyatro:'🎭 Tiyatro',sinema:'🎬 Sinema',bulusma:'🤝 Buluşma',gezi:'✈️ Gezi',randevu:'📅 Randevu',kariyer:'💼 Kariyer',kisisel:'🏠 Kişisel',temizlik:'🧹 Temizlik'};
 const MEKAN_CAT_COLORS={'Yemek':'or','Kafe':'am','Kültür':'pu','Doğa':'gr','Alışveriş':'pk','Diğer':'bl'};
 
 function fmtDate(d){return`${DAYS[d.getDay()]}, ${d.getDate()} ${MONTHS[d.getMonth()]} ${d.getFullYear()}`}
@@ -911,12 +913,13 @@ function renderMovies(){
 function switchMovieTab(tab){activeMovieTab=tab;document.querySelectorAll('#sec-movies .tab').forEach((t,i)=>t.classList.toggle('active',['izledim','izleyecek'][i]===tab));renderMovies();}
 
 /* HOBİLER */
-function openNewHobby(){document.getElementById('hobbyModalTitle').textContent='🎨 Hobi Kaydı';document.getElementById('hobbyEditId').value='';document.getElementById('hobbyName').value='';document.getElementById('hobbyNote').value='';document.getElementById('hobbyDur').value='';clearPhotoPreview('hobby');photos.hobby=null;document.getElementById('modal-hobby').classList.add('open');}
-function editHobby(id){const h=(DB.get('hobbies')||[]).find(x=>x.id===id);if(!h)return;document.getElementById('hobbyModalTitle').textContent='✏️ Hobi Düzenle';document.getElementById('hobbyEditId').value=id;document.getElementById('hobbyName').value=h.name;document.getElementById('hobbyNote').value=h.note||'';document.getElementById('hobbyDur').value=h.dur||'';if(h.photo){showPhotoPreview('hobby',h.photo);photos.hobby=h.photo;}else{clearPhotoPreview('hobby');photos.hobby=null;}document.getElementById('modal-hobby').classList.add('open');}
+function openNewHobby(){document.getElementById('hobbyModalTitle').textContent='🎨 Hobi Kaydı';document.getElementById('hobbyEditId').value='';document.getElementById('hobbyName').value='';document.getElementById('hobbyNote').value='';document.getElementById('hobbyDur').value='';document.getElementById('hobbyDate').value=dkey(new Date());clearPhotoPreview('hobby');photos.hobby=null;document.getElementById('modal-hobby').classList.add('open');}
+function editHobby(id){const h=(DB.get('hobbies')||[]).find(x=>x.id===id);if(!h)return;document.getElementById('hobbyModalTitle').textContent='✏️ Hobi Düzenle';document.getElementById('hobbyEditId').value=id;document.getElementById('hobbyName').value=h.name;document.getElementById('hobbyNote').value=h.note||'';document.getElementById('hobbyDur').value=h.dur||'';document.getElementById('hobbyDate').value=h.date||dkey(new Date());if(h.photo){showPhotoPreview('hobby',h.photo);photos.hobby=h.photo;}else{clearPhotoPreview('hobby');photos.hobby=null;}document.getElementById('modal-hobby').classList.add('open');}
 function saveHobby(){
   const name=document.getElementById('hobbyName').value.trim();if(!name)return;
   const editId=parseInt(document.getElementById('hobbyEditId').value)||null;
-  const item={id:editId||Date.now(),name,note:document.getElementById('hobbyNote').value,dur:document.getElementById('hobbyDur').value,photo:photos.hobby||null,date:dkey(new Date())};
+  const hobbyDateVal=document.getElementById('hobbyDate').value||dkey(new Date());
+  const item={id:editId||Date.now(),name,note:document.getElementById('hobbyNote').value,dur:document.getElementById('hobbyDur').value,photo:photos.hobby||null,date:hobbyDateVal};
   const ex=DB.get('hobbies')||[];
   if(editId){const i=ex.findIndex(h=>h.id===editId);if(i>-1){if(!photos.hobby)item.photo=ex[i].photo;ex[i]=item;}else ex.unshift(item);}else ex.unshift(item);
   DB.set('hobbies',ex);closeModal('hobby');renderHobbies();
@@ -1197,6 +1200,17 @@ function calcStats(){
 }
 
 let statsOpenSections={};
+function openStatsModal(jumpTo){
+  renderStatsModal();
+  document.getElementById('modal-stats').classList.add('open');
+  if(jumpTo){
+    setTimeout(()=>{
+      statsOpenSections[jumpTo]=true;
+      const el=document.getElementById('stats-list-'+jumpTo);
+      if(el){el.classList.add('open');el.scrollIntoView({behavior:'smooth',block:'start'});}
+    },150);
+  }
+}
 function toggleStatsSection(id){statsOpenSections[id]=!statsOpenSections[id];const el=document.getElementById('stats-list-'+id);if(el)el.classList.toggle('open',statsOpenSections[id]);}
 
 function renderStatsModal(){
@@ -1233,10 +1247,10 @@ function renderStatsModal(){
 function renderHome(){
   const s=calcStats();
   document.getElementById('statsGrid').innerHTML=`
-    <div class="stat-card"><div class="stat-num">📅 ${s.total}</div><div class="stat-label">Kayıtlı gün</div></div>
-    <div class="stat-card"><div class="stat-num">⭐ ${s.avg||'—'}</div><div class="stat-label">Ort. puan</div></div>
-    <div class="stat-card"><div class="stat-num">💪 ${s.acts.spor}</div><div class="stat-label">Spor</div></div>
-    <div class="stat-card"><div class="stat-num">🎥 ${s.filmCount+s.diziCount}</div><div class="stat-label">Film/Dizi</div></div>`;
+    <div class="stat-card" onclick="openStatsModal()" style="cursor:pointer"><div class="stat-num">📅 ${s.total}</div><div class="stat-label">Kayıtlı gün</div></div>
+    <div class="stat-card" onclick="openStatsModal()" style="cursor:pointer"><div class="stat-num">⭐ ${s.avg||'—'}</div><div class="stat-label">Ort. puan</div></div>
+    <div class="stat-card" onclick="openStatsModal('hobi')" style="cursor:pointer"><div class="stat-num">🎨 ${s.hobbyCount}</div><div class="stat-label">Hobi</div></div>
+    <div class="stat-card" onclick="openStatsModal('film')" style="cursor:pointer"><div class="stat-num">🎥 ${s.filmCount+s.diziCount}</div><div class="stat-label">Film/Dizi</div></div>`;
   const rl=document.getElementById('recentList');
   if(!s.recent.length){rl.innerHTML='<div class="empty">🌱 Henüz kayıt yok!</div>';return;}
   rl.innerHTML=s.recent.slice(0,4).map(e=>{
@@ -1261,7 +1275,7 @@ function importData(input){const file=input.files[0];if(!file)return;if(!confirm
 /* PWA */
 const manifest={name:"Mücü'nün Kişisel Ajandası",short_name:"Mücü Ajanda",start_url:".",display:"standalone",background_color:"#f7f6f3",theme_color:"#7C6FE0",orientation:"portrait",icons:[{src:"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%237C6FE0'/%3E%3Ctext x='50' y='54' font-size='62' text-anchor='middle' dominant-baseline='middle'%3E🌸%3C/text%3E%3C/svg%3E",sizes:"192x192",type:"image/svg+xml"}]};
 const mblob=new Blob([JSON.stringify(manifest)],{type:'application/json'});document.getElementById('pwa-manifest').href=URL.createObjectURL(mblob);
-if('serviceWorker' in navigator){const swCode=`const CACHE='mucu-v6';self.addEventListener('install',e=>{e.waitUntil(caches.open(CACHE).then(c=>c.addAll(['/'])));self.skipWaiting();});self.addEventListener('fetch',e=>{e.respondWith(caches.match(e.request).then(r=>r||fetch(e.request).catch(()=>caches.match('/'))));});`;const swBlob=new Blob([swCode],{type:'application/javascript'});navigator.serviceWorker.register(URL.createObjectURL(swBlob)).catch(()=>{});}
+if('serviceWorker' in navigator){const swCode=`const CACHE='mucu-v7';self.addEventListener('install',e=>{e.waitUntil(caches.open(CACHE).then(c=>c.addAll(['/'])));self.skipWaiting();});self.addEventListener('fetch',e=>{e.respondWith(caches.match(e.request).then(r=>r||fetch(e.request).catch(()=>caches.match('/'))));});`;const swBlob=new Blob([swCode],{type:'application/javascript'});navigator.serviceWorker.register(URL.createObjectURL(swBlob)).catch(()=>{});}
 
 renderHome();renderDaily();
 
